@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   searchQuery: string = '';
+  isMenuOpen: boolean = false;
+  isAnimating: boolean = false;
 
   constructor(private router: Router) {}
 
@@ -19,5 +21,16 @@ export class HeaderComponent {
     if (this.searchQuery.trim()) {
       this.router.navigate(['/search'], { queryParams: { query: this.searchQuery } });
     }
+  }
+
+  toggleMenu(): void {
+    if (!this.isMenuOpen) {
+      this.isAnimating = true;
+    }
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  onAnimationEnd(): void {
+    this.isAnimating = false;
   }
 }

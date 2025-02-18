@@ -1,29 +1,64 @@
 <header class="bg-black text-white fixed top-0 w-full z-50 shadow-lg">
-	<div class="flex items-center justify-between px-6 py-3">
+	<div class="flex items-center justify-between px-[3vw] py-[2vh]">
 	  <!-- Logo -->
-	  <a routerLink="/" class="flex items-center space-x-2">
-		<img src="assets/images/logo.png" alt="Logo" class="h-8">
-		<span class="text-lg font-bold">MovieHub</span>
+	  <a routerLink="/" class="flex items-center space-x-[1vw]">
+		<img src="assets/images/logo.png" alt="Logo" class="h-[4vh]">
+		<span class="text-[2vh] font-bold">MovieHub</span>
 	  </a>
   
-	  <!-- Menu Navigazione -->
-	  <nav class="hidden md:flex space-x-6 text-sm">
+	  <!-- Icona Hamburger per Mobile -->
+	  <button (click)="toggleMenu()" class="md:hidden text-white">
+		<svg class="w-[4vh] h-[4vh]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+		  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+		</svg>
+	  </button>
+  
+	  <!-- Menu Navigazione Desktop -->
+	  <nav class="hidden md:flex space-x-[2vw] text-[1.5vh]">
 		<a routerLink="/" class="hover:text-red-500 transition">Home</a>
 		<a routerLink="/movies" class="hover:text-red-500 transition">Film</a>
 		<a routerLink="/tv-shows" class="hover:text-red-500 transition">Serie TV</a>
 		<a routerLink="/people" class="hover:text-red-500 transition">Attori</a>
 	  </nav>
   
-	  <!-- Barra di Ricerca -->
-	  <form (submit)="onSearch()" class="flex items-center space-x-2">
+	  <!-- Barra di Ricerca Desktop -->
+	  <form (submit)="onSearch()" class="hidden md:flex items-center space-x-[1vw]">
 		<input 
 		  [(ngModel)]="searchQuery" 
 		  name="search"
 		  type="text" 
 		  placeholder="Cerca..." 
-		  class="w-40 md:w-60 px-3 py-1 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+		  class="w-[20vw] md:w-[15vw] px-[1vw] py-[0.5vh] rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
 		/>
-		<button type="submit" class="px-3 py-1 bg-red-600 hover:bg-red-500 text-white rounded">
+		<button type="submit" class="px-[1vw] py-[0.5vh] bg-red-600 hover:bg-red-500 text-white rounded">
+		  Cerca
+		</button>
+	  </form>
+	</div>
+  
+	<!-- Menu Mobile con Animazione -->
+	<div 
+	  *ngIf="isMenuOpen || isAnimating" 
+	  (animationend)="onAnimationEnd()" 
+	  [class.slide-in]="isMenuOpen" 
+	  [class.slide-out]="!isMenuOpen" 
+	  class="mobile-menu md:hidden bg-black text-white space-y-[2vh] py-[2vh]"
+	>
+	  <a routerLink="/" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Home</a>
+	  <a routerLink="/movies" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Film</a>
+	  <a routerLink="/tv-shows" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Serie TV</a>
+	  <a routerLink="/people" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Attori</a>
+  
+	  <!-- Barra di Ricerca Mobile -->
+	  <form (submit)="onSearch()" class="flex justify-center space-x-[1vw] px-[4vw]">
+		<input 
+		  [(ngModel)]="searchQuery" 
+		  name="search"
+		  type="text" 
+		  placeholder="Cerca..." 
+		  class="w-[60vw] px-[2vw] py-[1vh] rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+		/>
+		<button type="submit" class="px-[2vw] py-[1vh] bg-red-600 hover:bg-red-500 text-white rounded">
 		  Cerca
 		</button>
 	  </form>
@@ -31,5 +66,5 @@
   </header>
   
   <!-- Spazio per evitare sovrapposizioni con l'header fisso -->
-  <div class="mt-16"></div>
+  <div class="mt-[8vh]"></div>
   
