@@ -1,0 +1,22 @@
+header {
+	background-color: rgba(0, 0, 0, 0.85);
+	backdrop-filter: blur(8px);
+	transition: background-color 0.3s ease-in-out;
+  
+	a {
+	  font-weight: 500;
+	  transition: color 0.3s;
+  
+	  &:hover {
+		color: #e50914;
+	  }
+	}
+  }
+  
+  input {
+	transition: all 0.3s ease;
+	&:focus {
+	  box-shadow: 0 0 0 2px #e50914;
+	}
+  }
+  

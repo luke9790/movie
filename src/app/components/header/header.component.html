@@ -1,0 +1,35 @@
+<header class="bg-black text-white fixed top-0 w-full z-50 shadow-lg">
+	<div class="flex items-center justify-between px-6 py-3">
+	  <!-- Logo -->
+	  <a routerLink="/" class="flex items-center space-x-2">
+		<img src="assets/images/logo.png" alt="Logo" class="h-8">
+		<span class="text-lg font-bold">MovieHub</span>
+	  </a>
+  
+	  <!-- Menu Navigazione -->
+	  <nav class="hidden md:flex space-x-6 text-sm">
+		<a routerLink="/" class="hover:text-red-500 transition">Home</a>
+		<a routerLink="/movies" class="hover:text-red-500 transition">Film</a>
+		<a routerLink="/tv-shows" class="hover:text-red-500 transition">Serie TV</a>
+		<a routerLink="/people" class="hover:text-red-500 transition">Attori</a>
+	  </nav>
+  
+	  <!-- Barra di Ricerca -->
+	  <form (submit)="onSearch()" class="flex items-center space-x-2">
+		<input 
+		  [(ngModel)]="searchQuery" 
+		  name="search"
+		  type="text" 
+		  placeholder="Cerca..." 
+		  class="w-40 md:w-60 px-3 py-1 rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+		/>
+		<button type="submit" class="px-3 py-1 bg-red-600 hover:bg-red-500 text-white rounded">
+		  Cerca
+		</button>
+	  </form>
+	</div>
+  </header>
+  
+  <!-- Spazio per evitare sovrapposizioni con l'header fisso -->
+  <div class="mt-16"></div>
+  
