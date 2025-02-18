@@ -1,0 +1,26 @@
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+	display: none;
+  }
+  
+  .btn-secondary {
+	background-color: #2d2d2d;
+	color: white;
+	padding: 0.5vh 1.5vw;
+	font-size: 1.5vh;
+	font-weight: 500;
+	border-radius: 4px;
+	transition: background-color 0.2s ease-in-out;
+	cursor: pointer;
+  }
+  .btn-secondary:hover {
+	background-color: #3a3a3a;
+  }
+  .btn-secondary:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+  }
+  

@@ -57,25 +57,22 @@ export class ThemoviedbService {
       .set('page', '1');
   }
 
-  // Ottenere i film popolari
-  getPopularMovies(): Observable<ApiResponse<Movie>> {
-    return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/popular`, {
-      params: this.getDefaultParams()
-    });
+  // Ottenere i film popolari (con pagina)
+  getPopularMovies(page: number = 1): Observable<ApiResponse<Movie>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/popular`, { params });
   }
 
-  // Ottenere le serie TV popolari
-  getPopularTvShows(): Observable<ApiResponse<TvShow>> {
-    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/popular`, {
-      params: this.getDefaultParams()
-    });
+  // Ottenere le serie TV popolari (con pagina)
+  getPopularTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/popular`, { params });
   }
 
-  // Ottenere le persone popolari
-  getPopularPeople(): Observable<ApiResponse<Person>> {
-    return this.http.get<ApiResponse<Person>>(`${this.apiUrl}/person/popular`, {
-      params: this.getDefaultParams()
-    });
+  // Ottenere le persone popolari (con pagina)
+  getPopularPeople(page: number = 1): Observable<ApiResponse<Person>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<Person>>(`${this.apiUrl}/person/popular`, { params });
   }
 
   // Ottenere tutti i dati popolari insieme
