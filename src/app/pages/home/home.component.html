@@ -1,68 +1,79 @@
 <div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
-	<h1 class="text-[4vh] font-bold mb-[3vh] text-red-500">🎉 Scopri i Contenuti Popolari</h1>
+	<h1 class="text-[4vh] font-bold mb-[3vh] text-red-500 text-center">🎉 Scopri i Contenuti Popolari</h1>
   
 	<!-- Sezione Film Popolari con Paginazione -->
 	<section class="mb-[5vh]">
-	  <div class="flex justify-between items-center mb-[2vh]">
-		<h2 class="text-[2.5vh] font-bold text-red-400">🎬 Film Popolari (Pagina {{ moviePage }})</h2>
-		<div class="flex space-x-[1vw]">
-		  <button (click)="changePage('movie','prev')" [disabled]="moviePage === 1" class="btn-secondary">⬅️ Indietro</button>
-		  <button (click)="changePage('movie','next')" class="btn-secondary">Avanti ➡️</button>
-		</div>
-	  </div>
-  
-	  <div *ngIf="loadingMovies" class="text-center">Caricamento film...</div>
-	  <div class="flex overflow-x-auto space-x-[2vw] scrollbar-hide">
-		<div *ngFor="let movie of popularMovies" class="w-[20vw] bg-gray-800 rounded-lg shadow-lg hover:scale-105 transition">
-		  <img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }}" class="w-full h-[25vh] object-cover">
-		  <div class="p-[2vh]">
-			<h3 class="text-[1.8vh] font-semibold truncate">{{ movie.title }}</h3>
-			<p class="text-[1.4vh] text-gray-400">Voto: {{ movie.vote_average | number:'1.1-1' }}</p>
+	  <h2 class="text-[2.5vh] font-bold mb-[2vh] text-red-400">🎬 Film Popolari</h2>
+	  <div class="relative">
+		<div class="flex overflow-x-auto space-x-[2vw] scrollbar-hide">
+		  <div *ngFor="let movie of popularMovies" class="card">
+			<img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }}" class="card-img">
+			<div class="card-content">
+			  <h3 class="truncate">{{ movie.title }}</h3>
+			  <p>Voto: {{ movie.vote_average | number:'1.1-1' }}</p>
+			</div>
 		  </div>
+		</div>
+		<!-- Paginazione -->
+		<div class="pagination">
+		  <button (click)="changePage('movie', moviePage - 1)" [disabled]="moviePage === 1">⬅️</button>
+		  <button *ngFor="let page of getPaginationArray(movieTotalPages)" 
+				  (click)="changePage('movie', page)" 
+				  [class.active]="page === moviePage">
+			{{ page }}
+		  </button>
+		  <button (click)="changePage('movie', moviePage + 1)" [disabled]="moviePage === movieTotalPages">➡️</button>
 		</div>
 	  </div>
 	</section>
   
-	<!-- Sezione Serie TV Popolari con Paginazione -->
+	<!-- Sezione Serie TV Popolari -->
 	<section class="mb-[5vh]">
-	  <div class="flex justify-between items-center mb-[2vh]">
-		<h2 class="text-[2.5vh] font-bold text-blue-400">📺 Serie TV Popolari (Pagina {{ tvPage }})</h2>
-		<div class="flex space-x-[1vw]">
-		  <button (click)="changePage('tv','prev')" [disabled]="tvPage === 1" class="btn-secondary">⬅️ Indietro</button>
-		  <button (click)="changePage('tv','next')" class="btn-secondary">Avanti ➡️</button>
-		</div>
-	  </div>
-  
-	  <div *ngIf="loadingTv" class="text-center">Caricamento serie TV...</div>
-	  <div class="flex overflow-x-auto space-x-[2vw] scrollbar-hide">
-		<div *ngFor="let show of popularTvShows" class="w-[20vw] bg-gray-800 rounded-lg shadow-lg hover:scale-105 transition">
-		  <img [src]="getImageUrl(show.poster_path)" alt="{{ show.name }}" class="w-full h-[25vh] object-cover">
-		  <div class="p-[2vh]">
-			<h3 class="text-[1.8vh] font-semibold truncate">{{ show.name }}</h3>
-			<p class="text-[1.4vh] text-gray-400">Voto: {{ show.vote_average | number:'1.1-1' }}</p>
+	  <h2 class="text-[2.5vh] font-bold mb-[2vh] text-blue-400">📺 Serie TV Popolari</h2>
+	  <div class="relative">
+		<div class="flex overflow-x-auto space-x-[2vw] scrollbar-hide">
+		  <div *ngFor="let show of popularTvShows" class="card">
+			<img [src]="getImageUrl(show.poster_path)" alt="{{ show.name }}" class="card-img">
+			<div class="card-content">
+			  <h3 class="truncate">{{ show.name }}</h3>
+			  <p>Voto: {{ show.vote_average | number:'1.1-1' }}</p>
+			</div>
 		  </div>
+		</div>
+		<!-- Paginazione -->
+		<div class="pagination">
+		  <button (click)="changePage('tv', tvPage - 1)" [disabled]="tvPage === 1">⬅️</button>
+		  <button *ngFor="let page of getPaginationArray(tvTotalPages)" 
+				  (click)="changePage('tv', page)" 
+				  [class.active]="page === tvPage">
+			{{ page }}
+		  </button>
+		  <button (click)="changePage('tv', tvPage + 1)" [disabled]="tvPage === tvTotalPages">➡️</button>
 		</div>
 	  </div>
 	</section>
   
-	<!-- Sezione Attori Popolari con Paginazione -->
+	<!-- Sezione Attori Popolari -->
 	<section class="mb-[5vh]">
-	  <div class="flex justify-between items-center mb-[2vh]">
-		<h2 class="text-[2.5vh] font-bold text-yellow-400">🎭 Attori Popolari (Pagina {{ peoplePage }})</h2>
-		<div class="flex space-x-[1vw]">
-		  <button (click)="changePage('people','prev')" [disabled]="peoplePage === 1" class="btn-secondary">⬅️ Indietro</button>
-		  <button (click)="changePage('people','next')" class="btn-secondary">Avanti ➡️</button>
-		</div>
-	  </div>
-  
-	  <div *ngIf="loadingPeople" class="text-center">Caricamento attori...</div>
-	  <div class="flex overflow-x-auto space-x-[2vw] scrollbar-hide">
-		<div *ngFor="let person of popularPeople" class="w-[15vw] bg-gray-800 rounded-lg shadow-lg hover:scale-105 transition">
-		  <img [src]="getImageUrl(person.profile_path)" alt="{{ person.name }}" class="w-full h-[20vh] object-cover">
-		  <div class="p-[2vh]">
-			<h3 class="text-[1.8vh] font-semibold truncate">{{ person.name }}</h3>
-			<p class="text-[1.4vh] text-gray-400">{{ person.known_for_department }}</p>
+	  <h2 class="text-[2.5vh] font-bold mb-[2vh] text-yellow-400">🎭 Attori Popolari</h2>
+	  <div class="relative">
+		<div class="flex overflow-x-auto space-x-[2vw] scrollbar-hide">
+		  <div *ngFor="let person of popularPeople" class="card">
+			<img [src]="getImageUrl(person.profile_path)" alt="{{ person.name }}" class="card-img">
+			<div class="card-content">
+			  <h3 class="truncate">{{ person.name }}</h3>
+			</div>
 		  </div>
+		</div>
+		<!-- Paginazione -->
+		<div class="pagination">
+		  <button (click)="changePage('people', peoplePage - 1)" [disabled]="peoplePage === 1">⬅️</button>
+		  <button *ngFor="let page of getPaginationArray(peopleTotalPages)" 
+				  (click)="changePage('people', page)" 
+				  [class.active]="page === peoplePage">
+			{{ page }}
+		  </button>
+		  <button (click)="changePage('people', peoplePage + 1)" [disabled]="peoplePage === peopleTotalPages">➡️</button>
 		</div>
 	  </div>
 	</section>

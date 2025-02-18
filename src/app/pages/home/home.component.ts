@@ -13,6 +13,11 @@ export class HomeComponent implements OnInit {
   popularMovies: any[] = [];
   popularTvShows: any[] = [];
   popularPeople: any[] = [];
+  // Numero totale di pagine per ogni contenuto
+  movieTotalPages = 1;
+  tvTotalPages = 1;
+  peopleTotalPages = 1;
+
 
   // Stato della paginazione
   moviePage: number = 1;
@@ -32,57 +37,60 @@ export class HomeComponent implements OnInit {
 
   // Fetch Film Popolari
   fetchMovies(): void {
-    this.loadingMovies = true;
     this.tmdbService.getPopularMovies(this.moviePage).subscribe({
       next: (response) => {
         this.popularMovies = response.results;
-        this.loadingMovies = false;
-      },
-      error: () => this.loadingMovies = false
+        this.movieTotalPages = response.total_pages; // Salviamo il numero totale di pagine
+      }
     });
   }
 
   // Fetch Serie TV Popolari
   fetchTvShows(): void {
-    this.loadingTv = true;
     this.tmdbService.getPopularTvShows(this.tvPage).subscribe({
       next: (response) => {
         this.popularTvShows = response.results;
-        this.loadingTv = false;
-      },
-      error: () => this.loadingTv = false
+        this.tvTotalPages = response.total_pages; // Salviamo il numero totale di pagine
+      }
     });
   }
 
   // Fetch Attori Popolari
   fetchPeople(): void {
-    this.loadingPeople = true;
     this.tmdbService.getPopularPeople(this.peoplePage).subscribe({
       next: (response) => {
         this.popularPeople = response.results;
-        this.loadingPeople = false;
-      },
-      error: () => this.loadingPeople = false
+        this.peopleTotalPages = response.total_pages; // Salviamo il numero totale di pagine
+      }
     });
   }
 
-  // Cambia pagina (Generico)
-  changePage(type: 'movie' | 'tv' | 'people', direction: 'next' | 'prev'): void {
+
+  changePage(type: 'movie' | 'tv' | 'people', page: number): void {
     switch (type) {
       case 'movie':
-        this.moviePage = direction === 'next' ? this.moviePage + 1 : Math.max(1, this.moviePage - 1);
+        this.moviePage = page;
         this.fetchMovies();
         break;
       case 'tv':
-        this.tvPage = direction === 'next' ? this.tvPage + 1 : Math.max(1, this.tvPage - 1);
+        this.tvPage = page;
         this.fetchTvShows();
         break;
       case 'people':
-        this.peoplePage = direction === 'next' ? this.peoplePage + 1 : Math.max(1, this.peoplePage - 1);
+        this.peoplePage = page;
         this.fetchPeople();
         break;
     }
   }
+  
+  // Funzione per generare numeri di paginazione (max 5 per semplicità)
+  getPaginationArray(totalPages: number): number[] {
+    const maxPages = 5;
+    let startPage = Math.max(1, this.moviePage - Math.floor(maxPages / 2));
+    let endPage = Math.min(totalPages, startPage + maxPages - 1);
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+  }
+  
 
   // Helper per immagini
   getImageUrl(path: string | null): string {

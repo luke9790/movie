@@ -6,21 +6,63 @@
 	display: none;
   }
   
-  .btn-secondary {
-	background-color: #2d2d2d;
+  /* Card Uniformi */
+  .card {
+	width: 18vw;
+	height: 38vh;
+	background-color: #222;
+	border-radius: 8px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	transition: transform 0.2s ease-in-out;
+  }
+  .card:hover {
+	transform: scale(1.05);
+  }
+  .card-img {
+	width: 100%;
+	height: 75%;
+	object-fit: cover;
+  }
+  .card-content {
+	height: 25%;
+	padding: 1vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+  }
+  .truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+  }
+  
+  /* Paginazione */
+  .pagination {
+	display: flex;
+	justify-content: center;
+	gap: 0.5vw;
+	margin-top: 2vh;
+  }
+  .pagination button {
+	background: #444;
 	color: white;
-	padding: 0.5vh 1.5vw;
-	font-size: 1.5vh;
-	font-weight: 500;
+	padding: 0.5vh 1vw;
 	border-radius: 4px;
-	transition: background-color 0.2s ease-in-out;
 	cursor: pointer;
+	font-size: 1.5vh;
   }
-  .btn-secondary:hover {
-	background-color: #3a3a3a;
+  .pagination button:hover {
+	background: #666;
   }
-  .btn-secondary:disabled {
-	opacity: 0.4;
+  .pagination .active {
+	background: #e50914;
+	font-weight: bold;
+  }
+  .pagination button:disabled {
+	opacity: 0.5;
 	cursor: not-allowed;
   }
   
