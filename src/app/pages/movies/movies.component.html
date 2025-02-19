@@ -1,9 +1,9 @@
 <div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
-	<h1 class="text-main font-bold mb-[3vh] text-red-500 text-center">🎬 Film</h1>
+	<h1 class="text-main font-bold mb-[3vh] text-red-500 text-center">🎬 Explore Movies</h1>
   
 	<!-- Sezione Film Popolari -->
 	<section class="mb-[5vh]">
-	  <h2 class="text-section font-bold mb-[2vh] text-red-400">🔥 Film Popolari</h2>
+	  <h2 class="text-section font-bold mb-[2vh] text-red-400">🔥 Trending Movies</h2>
 	  <div class="relative">
 		<button class="left carousel-button" (click)="scrollCarousel('popular', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
@@ -12,7 +12,7 @@
 			<img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ movie.title }}</h3>
-			  <p class="text-vote">Voto: {{ movie.vote_average | number:'1.1-1' }}</p>
+			  <p class="text-vote">Rating: {{ movie.vote_average | number:'1.1-1' }}</p>
 			</div>
 		  </a>
 		</div>
@@ -22,7 +22,7 @@
   
 	<!-- Sezione Film in Arrivo -->
 	<section class="mb-[5vh]">
-	  <h2 class="text-section font-bold mb-[2vh] text-blue-400">📅 Film in Arrivo</h2>
+	  <h2 class="text-section font-bold mb-[2vh] text-blue-400">📅 Coming Soon</h2>
 	  <div class="relative">
 		<button class="left carousel-button" (click)="scrollCarousel('upcoming', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
@@ -31,7 +31,7 @@
 			<img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ movie.title }}</h3>
-			  <p class="text-vote">Voto: {{ movie.vote_average | number:'1.1-1' }}</p>
+			  <p class="text-vote">Rating: {{ movie.vote_average | number:'1.1-1' }}</p>
 			</div>
 		  </a>
 		</div>
@@ -41,7 +41,7 @@
   
 	<!-- Sezione Film Migliori -->
 	<section class="mb-[5vh]">
-	  <h2 class="text-section font-bold mb-[2vh] text-green-400">🏆 Film Migliori</h2>
+	  <h2 class="text-section font-bold mb-[2vh] text-green-400">🏆 Best Movies</h2>
 	  <div class="relative">
 		<button class="left carousel-button" (click)="scrollCarousel('topRated', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
@@ -50,7 +50,7 @@
 			<img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ movie.title }}</h3>
-			  <p class="text-vote">Voto: {{ movie.vote_average | number:'1.1-1' }}</p>
+			  <p class="text-vote">Rating: {{ movie.vote_average | number:'1.1-1' }}</p>
 			</div>
 		  </a>
 		</div>
@@ -60,7 +60,7 @@
   
 	<!-- Sezione Film in Sala -->
 	<section class="mb-[5vh]">
-	  <h2 class="text-section font-bold mb-[2vh] text-yellow-400">🎥 Film in Sala</h2>
+	  <h2 class="text-section font-bold mb-[2vh] text-yellow-400">🎥 Now Playing</h2>
 	  <div class="relative">
 		<button class="left carousel-button" (click)="scrollCarousel('nowPlaying', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
@@ -69,7 +69,7 @@
 			<img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ movie.title }}</h3>
-			  <p class="text-vote">Voto: {{ movie.vote_average | number:'1.1-1' }}</p>
+			  <p class="text-vote">Rating: {{ movie.vote_average | number:'1.1-1' }}</p>
 			</div>
 		  </a>
 		</div>

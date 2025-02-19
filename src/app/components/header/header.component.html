@@ -14,11 +14,11 @@
 	  </button>
   
 	  <!-- Menu Navigazione Desktop -->
-	  <nav class="hidden md:flex space-x-[2vw] text-[3vh]">
+	  <nav class="hidden md:flex space-x-[4vw] text-[3vh] absolute left-1/2 transform -translate-x-1/2">
 		<a routerLink="/" class="hover:text-red-500 transition">Home</a>
-		<a routerLink="/movies" class="hover:text-red-500 transition">Film</a>
-		<a routerLink="/series" class="hover:text-red-500 transition">Serie TV</a>
-		<a routerLink="/actors" class="hover:text-red-500 transition">Attori</a>
+		<a routerLink="/movies" class="hover:text-red-500 transition">Movies</a>
+		<a routerLink="/series" class="hover:text-red-500 transition">TV Series</a>
+		<a routerLink="/actors" class="hover:text-red-500 transition">Actors</a>
 	  </nav>
   
 	  <!-- Barra di Ricerca Desktop -->
@@ -27,11 +27,11 @@
 		  [(ngModel)]="searchQuery" 
 		  name="search"
 		  type="text" 
-		  placeholder="Cerca..." 
+		  placeholder="Search..." 
 		  class="w-[20vw] md:w-[15vw] px-[1vw] py-[0.5vh] rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
 		/>
 		<button type="submit" class="px-[1vw] py-[0.5vh] bg-red-600 hover:bg-red-500 text-white rounded">
-		  Cerca
+		  Search
 		</button>
 	  </form>
 	</div>
@@ -45,9 +45,9 @@
 	  class="mobile-menu md:hidden bg-black text-white space-y-[2vh] py-[2vh]"
 	>
 	  <a routerLink="/" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Home</a>
-	  <a routerLink="/movies" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Film</a>
-	  <a routerLink="/series" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Serie TV</a>
-	  <a routerLink="/actors" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Attori</a>
+	  <a routerLink="/movies" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Movies</a>
+	  <a routerLink="/series" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">TV Series</a>
+	  <a routerLink="/actors" (click)="toggleMenu()" class="block text-center hover:text-red-500 transition">Actors</a>
   
 	  <!-- Barra di Ricerca Mobile -->
 	  <form (submit)="onSearch()" class="flex justify-center space-x-[1vw] px-[4vw]">
@@ -55,11 +55,11 @@
 		  [(ngModel)]="searchQuery" 
 		  name="search"
 		  type="text" 
-		  placeholder="Cerca..." 
+		  placeholder="Search..." 
 		  class="w-[60vw] px-[2vw] py-[1vh] rounded bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500"
 		/>
 		<button type="submit" class="px-[2vw] py-[1vh] bg-red-600 hover:bg-red-500 text-white rounded">
-		  Cerca
+		  Search
 		</button>
 	  </form>
 	</div>

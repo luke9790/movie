@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 export class SeriesComponent implements OnInit {
   popularTvShows: any[] = [];
   topRatedTvShows: any[] = [];
+  onTheAirTvShows: any[] = [];
 
   currentIndexPopular = 0;
   currentIndexTopRated = 0;
@@ -22,6 +23,7 @@ export class SeriesComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPopularTvShows();
     this.fetchTopRatedTvShows();
+    this.fetchOnTheAirTvShows();
   }
 
   fetchPopularTvShows(): void {
@@ -36,6 +38,14 @@ export class SeriesComponent implements OnInit {
     this.tmdbService.getTopRatedTvShows().subscribe({
       next: (response) => {
         this.topRatedTvShows = response.results;
+      }
+    });
+  }
+
+  fetchOnTheAirTvShows(): void {
+    this.tmdbService.getOnTheAirTvShows().subscribe({
+      next: (response) => {
+        this.onTheAirTvShows = response.results;
       }
     });
   }

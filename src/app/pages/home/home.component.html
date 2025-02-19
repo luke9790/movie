@@ -1,10 +1,10 @@
 <div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
 	<h1 class="text-main font-bold mb-[3vh] text-red-500 text-center">
-	  🎉 Scopri i Contenuti Popolari
+	  🎉 Discover Popular Content
 	</h1>
   
 	<section class="mb-[5vh]">
-	  <h2 class="text-section font-bold mb-[2vh] text-red-400">🎬 Film Popolari</h2>
+	  <h2 class="text-section font-bold mb-[2vh] text-red-400">🎬 Trending Movies</h2>
 	  <div class="relative">
 		<button class="carousel-button left" (click)="scrollCarousel('movie', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
@@ -14,7 +14,7 @@
 			<img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ movie.title }}</h3>
-			  <p class="text-vote">Voto: {{ movie.vote_average | number:'1.1-1' }}</p>
+			  <p class="text-vote">Rating: {{ movie.vote_average | number:'1.1-1' }}</p>
 			</div>
 		  </a>
 		</div>
@@ -23,7 +23,7 @@
 	</section>
   
 	<section class="mb-[5vh]">
-	  <h2 class="text-section font-bold mb-[2vh] text-blue-400">📺 Serie TV Popolari</h2>
+	  <h2 class="text-section font-bold mb-[2vh] text-blue-400">📺 Trending TV Shows</h2>
 	  <div class="relative">
 		<button class="carousel-button left" (click)="scrollCarousel('tv', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
@@ -33,7 +33,7 @@
 			<img [src]="getImageUrl(show.poster_path)" alt="{{ show.name }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ show.name }}</h3>
-			  <p class="text-vote">Voto: {{ show.vote_average | number:'1.1-1' }}</p>
+			  <p class="text-vote">Rating: {{ show.vote_average | number:'1.1-1' }}</p>
 			</div>
 		  </a>
 		</div>
@@ -42,7 +42,7 @@
 	</section>
   
 	<section class="mb-[5vh]">
-	  <h2 class="text-section font-bold mb-[2vh] text-yellow-400">🎭 Attori Popolari</h2>
+	  <h2 class="text-section font-bold mb-[2vh] text-yellow-400">🎭 Trending Actors</h2>
 	  <div class="relative">
 		<button class="carousel-button left" (click)="scrollCarousel('people', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">

@@ -25,6 +25,7 @@ export class MovieDetailComponent implements OnInit {
   fetchMovieDetails(id: number): void {
     this.tmdbService.getMovieDetails(id).subscribe({
       next: (response) => {
+        console.log(response);
         this.movie = response;
       }
     });

@@ -53,7 +53,7 @@ export class ThemoviedbService {
   private getDefaultParams(): HttpParams {
     return new HttpParams()
       .set('api_key', this.apiKey)
-      .set('language', 'it-IT')
+      .set('language', 'en-US')
       .set('page', '1');
   }
 
