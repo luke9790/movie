@@ -3,21 +3,28 @@
 	  <div class="flex flex-col items-center">
 		<img [src]="'https://image.tmdb.org/t/p/w500' + actor.profile_path" class="w-40 h-40 rounded-full object-cover">
 		<h1 class="text-main font-bold mt-4">{{ actor.name }}</h1>
-		<p class="text-sm text-gray-400">Nato il: {{ actor.birthday }} | {{ actor.place_of_birth }}</p>
+		<p class="text-sm text-gray-400">Born: {{ actor.birthday }} | {{ actor.place_of_birth }}</p>
+		<p *ngIf="actor.deathday" class="text-sm text-gray-400">Died: {{ actor.deathday }}</p>
+		<p class="text-sm text-gray-400">Known for: {{ actor.known_for_department }}</p>
+		<a *ngIf="actor.imdb_id" [href]="'https://www.imdb.com/name/' + actor.imdb_id" target="_blank" class="text-sm text-blue-400 hover:underline">IMDB Profile</a>
 	  </div>
-  
+	  
 	  <div class="mt-6">
-		<h2 class="text-section font-bold mb-2">Biografia</h2>
+		<h2 class="text-section font-bold mb-2">Biography</h2>
 		<p class="text-lg text-gray-300">{{ actor.biography }}</p>
 	  </div>
   
 	  <div class="mt-6">
-		<h2 class="text-section font-bold mb-2">Filmografia</h2>
-		<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-		  <div *ngFor="let movie of actor.known_for" class="text-center">
-			<img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" class="w-full h-40 object-cover rounded-lg">
-			<p class="text-sm mt-2">{{ movie.title || movie.name }}</p>
+		<h2 class="text-section font-bold mb-2">Filmography</h2>
+		<div class="relative">
+		  <button class="carousel-button left" (click)="scrollCarousel('left')">⬅️</button>
+		  <div class="flex overflow-hidden space-x-[2vw] carousel-container">
+			<div *ngFor="let movie of knownWorks.slice(currentIndexWork, currentIndexWork + 5)" class="text-center card">
+			  <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" class="w-full h-40 object-cover rounded-lg">
+			  <p class="text-sm mt-2">{{ movie.title || movie.name }}</p>
+			</div>
 		  </div>
+		  <button class="carousel-button right" (click)="scrollCarousel('right')">➡️</button>
 		</div>
 	  </div>
 	</div>

@@ -75,6 +75,11 @@ export class ThemoviedbService {
     return this.http.get<Person>(`${this.apiUrl}/person/${personId}`, { params });
   }
 
+  getPersonDetailsWork(personId: number): Observable<any> {
+    const params = this.getDefaultParams();
+    return this.http.get<any>(`${this.apiUrl}/person/${personId}/movie_credits`, { params });
+  }
+
   // Ottenere i film popolari (con pagina)
   getPopularMovies(page: number = 1): Observable<ApiResponse<Movie>> {
     const params = this.getDefaultParams().set('page', page.toString());
