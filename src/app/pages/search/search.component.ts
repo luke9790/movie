@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ThemoviedbService } from '../../services/themoviedb.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
@@ -49,4 +49,18 @@ export class SearchComponent implements OnInit {
   getImageUrl(path: string | null): string {
     return path ? `https://image.tmdb.org/t/p/w500${path}` : 'assets/images/placeholder.png';
   }
+
+  getItemRouteArray(item: any): any[] {
+    switch (item.media_type) {
+      case 'movie':
+        return ['/movies', item.id];
+      case 'tv':
+        return ['/series', item.id];
+      case 'person':
+        return ['/actors', item.id];
+      default:
+        return ['/'];
+    }
+  }
+  
 }

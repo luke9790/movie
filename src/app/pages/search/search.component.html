@@ -3,14 +3,16 @@
 	  Risultati per "{{ query }}"
 	</h1>
   
-	<!-- Messaggi di caricamento e errore -->
 	<div *ngIf="loading" class="text-center text-[2vh]">Caricamento...</div>
 	<div *ngIf="error" class="text-center text-red-500">{{ error }}</div>
   
-	<!-- Lista dei risultati -->
 	<div *ngIf="results.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[2vw]">
-	  <div *ngFor="let item of results" class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105">
-		<img [src]="getImageUrl(item.poster_path || item.profile_path)" alt="{{ item.name || item.title }}" class="w-full h-[30vh] object-cover">
+	  <a *ngFor="let item of results" 
+		 [routerLink]="getItemRouteArray(item)"
+		 class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 cursor-pointer">
+		<img [src]="getImageUrl(item.poster_path || item.profile_path)" 
+			 alt="{{ item.name || item.title }}" 
+			 class="w-full h-[30vh] object-cover">
 		<div class="p-[2vh]">
 		  <h3 class="text-[2vh] font-semibold truncate">
 			{{ item.title || item.name }}
@@ -19,10 +21,9 @@
 			{{ item.media_type | titlecase }}
 		  </p>
 		</div>
-	  </div>
+	  </a>
 	</div>
   
-	<!-- Nessun risultato -->
 	<div *ngIf="!loading && !error && results.length === 0" class="text-center text-[2vh]">
 	  Nessun risultato trovato per "{{ query }}".
 	</div>
