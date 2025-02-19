@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class SeriesDetailComponent implements OnInit {
   series: any;
+  credits: any;
+  currentIndexPeople: number = 0;
 
   constructor(private route: ActivatedRoute, private tmdbService: ThemoviedbService) {}
 
@@ -19,6 +21,7 @@ export class SeriesDetailComponent implements OnInit {
     const seriesId = this.route.snapshot.paramMap.get('id');
     if (seriesId) {
       this.fetchSeriesDetails(+seriesId);
+      this.fetchSeriesCredits(+seriesId);
     }
   }
 
@@ -28,5 +31,24 @@ export class SeriesDetailComponent implements OnInit {
         this.series = response;
       }
     });
+  }
+
+  fetchSeriesCredits(id: number): void {
+    this.tmdbService.getTvShowCredits(id).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.credits = response;
+      }
+    });
+  }
+
+  scrollCarousel(type: 'people', direction: 'left' | 'right'): void {
+    if (type === 'people') {
+      if (direction === 'left') {
+        this.currentIndexPeople = (this.currentIndexPeople - 5 < 0) ? Math.max(0, this.credits?.cast.length - 5) : this.currentIndexPeople - 5;
+      } else {
+        this.currentIndexPeople = (this.currentIndexPeople + 5 >= (this.credits?.cast.length || 0)) ? 0 : this.currentIndexPeople + 5;
+      }
+    }
   }
 }

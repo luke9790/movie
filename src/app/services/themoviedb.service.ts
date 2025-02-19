@@ -63,10 +63,20 @@ export class ThemoviedbService {
     return this.http.get<Movie>(`${this.apiUrl}/movie/${movieId}`, { params });
   }
 
+  getMovieCredits(movieId: number): Observable<Movie> {
+    const params = this.getDefaultParams();
+    return this.http.get<Movie>(`${this.apiUrl}/movie/${movieId}/credits`, { params });
+  }
+
   // Ottenere i dettagli di una serie TV
   getTvShowDetails(tvId: number): Observable<TvShow> {
     const params = this.getDefaultParams();
     return this.http.get<TvShow>(`${this.apiUrl}/tv/${tvId}`, { params });
+  }
+
+  getTvShowCredits(tvId: number): Observable<TvShow> {
+    const params = this.getDefaultParams();
+    return this.http.get<TvShow>(`${this.apiUrl}/tv/${tvId}/credits`, { params });
   }
 
   // Ottenere i dettagli di un attore
@@ -77,7 +87,7 @@ export class ThemoviedbService {
 
   getPersonDetailsWork(personId: number): Observable<any> {
     const params = this.getDefaultParams();
-    return this.http.get<any>(`${this.apiUrl}/person/${personId}/movie_credits`, { params });
+    return this.http.get<any>(`${this.apiUrl}/person/${personId}/combined_credits`, { params });
   }
 
   // Ottenere i film popolari (con pagina)

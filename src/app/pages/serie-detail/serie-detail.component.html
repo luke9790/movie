@@ -23,6 +23,24 @@
 		  <span *ngFor="let genre of series.genres" class="bg-blue-600 px-2 py-1 rounded text-mid">{{ genre.name }}</span>
 		</div>
 	  </div>
+
+	  <!-- Cast Carousel -->
+	  <section class="mt-6" *ngIf="credits?.cast?.length">
+		<h2 class="text-section font-bold mb-[2vh] text-blue-400">🎭 Cast</h2>
+		<div class="relative">
+		  <button class="left carousel-button" (click)="scrollCarousel('people', 'left')">⬅️</button>
+		  <div class="flex overflow-hidden space-x-[2vw] carousel-container">
+			<div *ngFor="let actor of credits.cast.slice(currentIndexPeople, currentIndexPeople + 5)" class="card">
+			  <img *ngIf="actor.profile_path" [src]="'https://image.tmdb.org/t/p/w200' + actor.profile_path" alt="{{ actor.name }}" class="card-img rounded-full object-cover">
+			  <div class="card-content text-center">
+				<h3 class="truncate text-title">{{ actor.name }}</h3>
+				<p class="text-sm text-gray-400">{{ actor.character }}</p>
+			  </div>
+			</div>
+		  </div>
+		  <button class="right carousel-button" (click)="scrollCarousel('people', 'right')">➡️</button>
+		</div>
+	  </section>
   
 	  <!-- Production Details -->
 	  <div class="mt-6">

@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class MovieDetailComponent implements OnInit {
   movie: any;
+  credits: any;
+  currentIndexPeople: number = 0;
 
   constructor(private route: ActivatedRoute, private tmdbService: ThemoviedbService) {}
 
@@ -19,15 +21,34 @@ export class MovieDetailComponent implements OnInit {
     const movieId = this.route.snapshot.paramMap.get('id');
     if (movieId) {
       this.fetchMovieDetails(+movieId);
+      this.fetchMovieCredits(+movieId);
     }
   }
 
   fetchMovieDetails(id: number): void {
     this.tmdbService.getMovieDetails(id).subscribe({
       next: (response) => {
-        console.log(response);
         this.movie = response;
       }
     });
+  }
+
+  fetchMovieCredits(id: number): void {
+    this.tmdbService.getMovieCredits(id).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.credits = response;
+      }
+    });
+  }
+
+  scrollCarousel(type: 'people', direction: 'left' | 'right'): void {
+    if (type === 'people') {
+      if (direction === 'left') {
+        this.currentIndexPeople = (this.currentIndexPeople - 5 < 0) ? Math.max(0, this.credits?.cast.length - 5) : this.currentIndexPeople - 5;
+      } else {
+        this.currentIndexPeople = (this.currentIndexPeople + 5 >= (this.credits?.cast.length || 0)) ? 0 : this.currentIndexPeople + 5;
+      }
+    }
   }
 }
