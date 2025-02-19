@@ -1,1 +1,22 @@
-<p>serie-detail works!</p>
+<div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
+	<div *ngIf="series">
+	  <div class="relative w-full h-[50vh]">
+		<img [src]="'https://image.tmdb.org/t/p/original' + series.backdrop_path" class="w-full h-full object-cover opacity-50">
+		<h1 class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-main font-bold text-center text-white">{{ series.name }}</h1>
+	  </div>
+	  
+	  <div class="mt-6">
+		<p class="text-lg text-gray-300">{{ series.overview }}</p>
+		<p class="mt-2 text-sm text-gray-400">Stagioni: {{ series.number_of_seasons }} | Episodi: {{ series.number_of_episodes }} | Voto: {{ series.vote_average }} ⭐</p>
+		<p class="mt-2 text-sm text-gray-400">Prima trasmissione: {{ series.first_air_date }}</p>
+	  </div>
+  
+	  <div class="mt-6">
+		<h2 class="text-section font-bold mb-2">Generi</h2>
+		<div class="flex gap-2">
+		  <span *ngFor="let genre of series.genres" class="bg-blue-600 px-2 py-1 rounded text-sm">{{ genre.name }}</span>
+		</div>
+	  </div>
+	</div>
+  </div>
+  

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemoviedbService } from '../../services/themoviedb.service';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

@@ -6,50 +6,57 @@
 	<section class="mb-[5vh]">
 	  <h2 class="text-section font-bold mb-[2vh] text-red-400">🎬 Film Popolari</h2>
 	  <div class="relative">
-		<button class="left bg-gray-700" (click)="scrollCarousel('movie', 'left')">⬅️</button>
+		<button class="carousel-button left" (click)="scrollCarousel('movie', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
-		  <div *ngFor="let movie of popularMovies.slice(currentIndexMovie, currentIndexMovie + 5)" class="card">
+		  <a *ngFor="let movie of popularMovies.slice(currentIndexMovie, currentIndexMovie + 5)" 
+			 [routerLink]="['/movies', movie.id]" 
+			 class="card cursor-pointer">
 			<img [src]="getImageUrl(movie.poster_path)" alt="{{ movie.title }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ movie.title }}</h3>
 			  <p class="text-vote">Voto: {{ movie.vote_average | number:'1.1-1' }}</p>
 			</div>
-		  </div>
+		  </a>
 		</div>
-		<button class="right bg-gray-700" (click)="scrollCarousel('movie', 'right')">➡️</button>
+		<button class="carousel-button right" (click)="scrollCarousel('movie', 'right')">➡️</button>
 	  </div>
 	</section>
   
 	<section class="mb-[5vh]">
 	  <h2 class="text-section font-bold mb-[2vh] text-blue-400">📺 Serie TV Popolari</h2>
 	  <div class="relative">
-		<button class="left bg-gray-700" (click)="scrollCarousel('tv', 'left')">⬅️</button>
+		<button class="carousel-button left" (click)="scrollCarousel('tv', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
-		  <div *ngFor="let show of popularTvShows.slice(currentIndexTv, currentIndexTv + 5)" class="card">
+		  <a *ngFor="let show of popularTvShows.slice(currentIndexTv, currentIndexTv + 5)" 
+			 [routerLink]="['/series', show.id]" 
+			 class="card cursor-pointer">
 			<img [src]="getImageUrl(show.poster_path)" alt="{{ show.name }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ show.name }}</h3>
 			  <p class="text-vote">Voto: {{ show.vote_average | number:'1.1-1' }}</p>
 			</div>
-		  </div>
+		  </a>
 		</div>
-		<button class="right bg-gray-700" (click)="scrollCarousel('tv', 'right')">➡️</button>
+		<button class="carousel-button right" (click)="scrollCarousel('tv', 'right')">➡️</button>
 	  </div>
 	</section>
   
 	<section class="mb-[5vh]">
 	  <h2 class="text-section font-bold mb-[2vh] text-yellow-400">🎭 Attori Popolari</h2>
 	  <div class="relative">
-		<button class="left bg-gray-700" (click)="scrollCarousel('people', 'left')">⬅️</button>
+		<button class="carousel-button left" (click)="scrollCarousel('people', 'left')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
-		  <div *ngFor="let person of popularPeople.slice(currentIndexPeople, currentIndexPeople + 5)" class="card">
+		  <a *ngFor="let person of popularPeople.slice(currentIndexPeople, currentIndexPeople + 5)" 
+			 [routerLink]="['/actors', person.id]" 
+			 class="card cursor-pointer">
 			<img [src]="getImageUrl(person.profile_path)" alt="{{ person.name }}" class="card-img">
 			<div class="card-content">
 			  <h3 class="truncate text-title">{{ person.name }}</h3>
 			</div>
-		  </div>
+		  </a>
 		</div>
-		<button class="right bg-gray-700" (click)="scrollCarousel('people', 'right')">➡️</button>
+		<button class="carousel-button right" (click)="scrollCarousel('people', 'right')">➡️</button>
 	  </div>
 	</section>
   </div>
+  
