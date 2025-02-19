@@ -2,3 +2,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.text-main {
+	font-size: clamp(1.5rem, 4vw, 3rem);
+  }
+  .text-section {
+	font-size: clamp(1.2rem, 3vw, 2.5rem);
+  }
+  .text-title {
+	font-size: clamp(0.4rem, 1.5vw, 1.5rem);
+	font-weight: bold;
+  }
+  .text-vote {
+	font-size: clamp(0.2rem, 1vw, 1rem);
+  }

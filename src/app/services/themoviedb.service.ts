@@ -57,16 +57,71 @@ export class ThemoviedbService {
       .set('page', '1');
   }
 
+  // Ottenere i dettagli di un film
+  getMovieDetails(movieId: number): Observable<Movie> {
+    const params = this.getDefaultParams();
+    return this.http.get<Movie>(`${this.apiUrl}/movie/${movieId}`, { params });
+  }
+
+  // Ottenere i dettagli di una serie TV
+  getTvShowDetails(tvId: number): Observable<TvShow> {
+    const params = this.getDefaultParams();
+    return this.http.get<TvShow>(`${this.apiUrl}/tv/${tvId}`, { params });
+  }
+
+  // Ottenere i dettagli di un attore
+  getPersonDetails(personId: number): Observable<Person> {
+    const params = this.getDefaultParams();
+    return this.http.get<Person>(`${this.apiUrl}/person/${personId}`, { params });
+  }
+
   // Ottenere i film popolari (con pagina)
   getPopularMovies(page: number = 1): Observable<ApiResponse<Movie>> {
     const params = this.getDefaultParams().set('page', page.toString());
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/popular`, { params });
   }
 
+  // Ottenere i film in arrivo (con pagina)
+  getUpcomingMovies(page: number = 1): Observable<ApiResponse<Movie>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/upcoming`, { params });
+  }
+
+  // Ottenere i film migliori (Top Rated) (con pagina)
+  getTopRatedMovies(page: number = 1): Observable<ApiResponse<Movie>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/top_rated`, { params });
+  }
+
+  // Ottenere i film attualmente in sala (Now Playing) (con pagina)
+  getNowPlayingMovies(page: number = 1): Observable<ApiResponse<Movie>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/now_playing`, { params });
+  }
+
+
   // Ottenere le serie TV popolari (con pagina)
   getPopularTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
     const params = this.getDefaultParams().set('page', page.toString());
     return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/popular`, { params });
+  }
+
+  // Ottenere le serie TV migliori (Top Rated) (con pagina)
+  getTopRatedTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/top_rated`, { params });
+  }
+
+  // Ottenere le serie TV in onda (On The Air) (con pagina)
+  getOnTheAirTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/on_the_air`, { params });
+  }
+
+  // Ottenere le serie TV in onda oggi (Airing Today) (con pagina)
+  getAiringTodayTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
+    const params = this.getDefaultParams().set('page', page.toString());
+    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/airing_today`, { params });
   }
 
   // Ottenere le persone popolari (con pagina)

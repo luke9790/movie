@@ -9,23 +9,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-  // Dati principali
   popularMovies: any[] = [];
   popularTvShows: any[] = [];
   popularPeople: any[] = [];
-  // Numero totale di pagine per ogni contenuto
-  movieTotalPages = 1;
-  tvTotalPages = 1;
-  peopleTotalPages = 1;
 
-
-  // Stato della paginazione
-  moviePage: number = 1;
-  tvPage: number = 1;
-  peoplePage: number = 1;
-  loadingMovies = false;
-  loadingTv = false;
-  loadingPeople = false;
+  currentIndexMovie = 0;
+  currentIndexTv = 0;
+  currentIndexPeople = 0;
 
   constructor(private tmdbService: ThemoviedbService) {}
 
@@ -35,66 +25,59 @@ export class HomeComponent implements OnInit {
     this.fetchPeople();
   }
 
-  // Fetch Film Popolari
   fetchMovies(): void {
-    this.tmdbService.getPopularMovies(this.moviePage).subscribe({
+    this.tmdbService.getPopularMovies(1).subscribe({
       next: (response) => {
         this.popularMovies = response.results;
-        this.movieTotalPages = response.total_pages; // Salviamo il numero totale di pagine
       }
     });
   }
 
-  // Fetch Serie TV Popolari
   fetchTvShows(): void {
-    this.tmdbService.getPopularTvShows(this.tvPage).subscribe({
+    this.tmdbService.getPopularTvShows(1).subscribe({
       next: (response) => {
         this.popularTvShows = response.results;
-        this.tvTotalPages = response.total_pages; // Salviamo il numero totale di pagine
       }
     });
   }
 
-  // Fetch Attori Popolari
   fetchPeople(): void {
-    this.tmdbService.getPopularPeople(this.peoplePage).subscribe({
+    this.tmdbService.getPopularPeople(1).subscribe({
       next: (response) => {
         this.popularPeople = response.results;
-        this.peopleTotalPages = response.total_pages; // Salviamo il numero totale di pagine
       }
     });
   }
 
-
-  changePage(type: 'movie' | 'tv' | 'people', page: number): void {
+  scrollCarousel(type: 'movie' | 'tv' | 'people', direction: 'left' | 'right'): void {
     switch (type) {
       case 'movie':
-        this.moviePage = page;
-        this.fetchMovies();
+        if (direction === 'left') {
+          this.currentIndexMovie = (this.currentIndexMovie - 5 < 0) ? 15 : this.currentIndexMovie - 5;
+        } else {
+          this.currentIndexMovie = (this.currentIndexMovie + 5 > 15) ? 0 : this.currentIndexMovie + 5;
+        }
         break;
       case 'tv':
-        this.tvPage = page;
-        this.fetchTvShows();
+        if (direction === 'left') {
+          this.currentIndexTv = (this.currentIndexTv - 5 < 0) ? 15 : this.currentIndexTv - 5;
+        } else {
+          this.currentIndexTv = (this.currentIndexTv + 5 > 15) ? 0 : this.currentIndexTv + 5;
+        }
         break;
       case 'people':
-        this.peoplePage = page;
-        this.fetchPeople();
+        if (direction === 'left') {
+          this.currentIndexPeople = (this.currentIndexPeople - 5 < 0) ? 15 : this.currentIndexPeople - 5;
+        } else {
+          this.currentIndexPeople = (this.currentIndexPeople + 5 > 15) ? 0 : this.currentIndexPeople + 5;
+        }
         break;
     }
   }
-  
-  // Funzione per generare numeri di paginazione (max 5 per semplicità)
-  getPaginationArray(totalPages: number): number[] {
-    const maxPages = 5;
-    let startPage = Math.max(1, this.moviePage - Math.floor(maxPages / 2));
-    let endPage = Math.min(totalPages, startPage + maxPages - 1);
-    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
-  }
-  
 
-  // Helper per immagini
-  getImageUrl(path: string | null): string {
-    return path ? `https://image.tmdb.org/t/p/w500${path}` : 'assets/images/placeholder.png';
+  // ricostruire url completo per immagine
+  getImageUrl(path: string | null, size: string = 'w500'): string {
+    return path ? `https://image.tmdb.org/t/p/${size}${path}` : 'assets/images/placeholder.png';
   }
+  
 }
-

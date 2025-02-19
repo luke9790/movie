@@ -6,6 +6,7 @@
 	display: none;
   }
   
+  /* Card Uniformi */
   .card {
 	width: 18vw;
 	height: auto;
@@ -38,6 +39,7 @@
 	text-overflow: ellipsis;
   }
   
+  /* Stili per il carosello */
   .relative {
 	position: relative;
   }
@@ -72,6 +74,7 @@
 	right: -2vw;
   }
   
+  /* Responsive Font Sizes con Clamp */
   .text-main {
 	font-size: clamp(1.5rem, 4vw, 3rem);
   }
@@ -86,6 +89,7 @@
 	font-size: clamp(0.2rem, 1vw, 1rem);
   }
   
+  /* Miglioramenti per mobile */
   @media (max-width: 768px) {
 	.card {
 	  width: 40vw;
@@ -107,4 +111,3 @@
 	  font-size: clamp(0.2rem, 1vw, 1rem);
 	}
   }
-  
