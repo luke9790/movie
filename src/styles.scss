@@ -99,6 +99,10 @@ body {
 	font-size: clamp(0.2rem, 1vw, 1rem);
   }
 
+  .text-bio {
+	font-size: clamp(0.4rem, 1.5vw, 2rem);
+  }
+
    /* Miglioramenti per mobile */
    @media (max-width: 768px) {
 	.card {
