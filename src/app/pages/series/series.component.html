@@ -1,1 +1,44 @@
-<p>series works!</p>
+<div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
+	<h1 class="text-main font-bold mb-[3vh] text-blue-500 text-center">
+	  📺 Scopri le Serie TV
+	</h1>
+  
+	<section class="mb-[5vh]">
+	  <h2 class="text-section font-bold mb-[2vh] text-blue-400">🔥 Serie TV Popolari</h2>
+	  <div class="relative">
+		<button class="carousel-button left" (click)="scrollCarousel('popular', 'left')">⬅️</button>
+		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
+		  <a *ngFor="let show of popularTvShows.slice(currentIndexPopular, currentIndexPopular + 5)" 
+			 [routerLink]="['/series', show.id]" 
+			 class="card cursor-pointer">
+			<img [src]="getImageUrl(show.poster_path)" alt="{{ show.name }}" class="card-img">
+			<div class="card-content">
+			  <h3 class="truncate text-title">{{ show.name }}</h3>
+			  <p class="text-vote">Voto: {{ show.vote_average | number:'1.1-1' }}</p>
+			</div>
+		  </a>
+		</div>
+		<button class="carousel-button right" (click)="scrollCarousel('popular', 'right')">➡️</button>
+	  </div>
+	</section>
+  
+	<section class="mb-[5vh]">
+	  <h2 class="text-section font-bold mb-[2vh] text-green-400">🎭 Serie TV Migliori</h2>
+	  <div class="relative">
+		<button class="carousel-button left" (click)="scrollCarousel('topRated', 'left')">⬅️</button>
+		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
+		  <a *ngFor="let show of topRatedTvShows.slice(currentIndexTopRated, currentIndexTopRated + 5)" 
+			 [routerLink]="['/series', show.id]" 
+			 class="card cursor-pointer">
+			<img [src]="getImageUrl(show.poster_path)" alt="{{ show.name }}" class="card-img">
+			<div class="card-content">
+			  <h3 class="truncate text-title">{{ show.name }}</h3>
+			  <p class="text-vote">Voto: {{ show.vote_average | number:'1.1-1' }}</p>
+			</div>
+		  </a>
+		</div>
+		<button class="carousel-button right" (click)="scrollCarousel('topRated', 'right')">➡️</button>
+	  </div>
+	</section>
+  </div>
+  
