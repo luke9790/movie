@@ -100,7 +100,10 @@ body {
   }
 
   .text-bio {
-	font-size: clamp(0.4rem, 1.5vw, 2rem);
+	font-size: clamp(0.6rem, 1.5vw, 2rem);
+  }
+  .text-mid {
+	font-size: clamp(0.6rem, 1.25vw, 1.5rem);
   }
 
    /* Miglioramenti per mobile */

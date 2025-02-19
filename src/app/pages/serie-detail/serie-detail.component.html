@@ -5,22 +5,22 @@
 		<img [src]="'https://image.tmdb.org/t/p/original' + series.backdrop_path" class="w-full h-full object-cover object-top opacity-50">
 		<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
 		  <h1 class="text-main font-bold text-white">{{ series.name }}</h1>
-		  <p class="text-lg text-gray-300 italic">{{ series.tagline }}</p>
+		  <p class="text-section text-gray-300 italic">{{ series.tagline }}</p>
 		</div>
 	  </div>
 	  
 	  <!-- Series Details -->
 	  <div class="mt-6">
-		<p class="text-lg text-gray-300">{{ series.overview }}</p>
-		<p class="mt-2 text-sm text-gray-400">Seasons: {{ series.number_of_seasons }} | Episodes: {{ series.number_of_episodes }} | Rating: {{ series.vote_average }} ⭐</p>
-		<p class="mt-2 text-sm text-gray-400">First Aired: {{ series.first_air_date }}</p>
+		<p class="text-section text-gray-300">{{ series.overview }}</p>
+		<p class="mt-2 text-mid text-gray-400">Seasons: {{ series.number_of_seasons }} | Episodes: {{ series.number_of_episodes }} | Rating: {{ series.vote_average }} ⭐</p>
+		<p class="mt-2 text-mid text-gray-400">First Aired: {{ series.first_air_date }}</p>
 	  </div>
   
 	  <!-- Genres -->
 	  <div class="mt-6">
 		<h2 class="text-section font-bold mb-2">Genres</h2>
 		<div class="flex gap-2">
-		  <span *ngFor="let genre of series.genres" class="bg-blue-600 px-2 py-1 rounded text-sm">{{ genre.name }}</span>
+		  <span *ngFor="let genre of series.genres" class="bg-blue-600 px-2 py-1 rounded text-mid">{{ genre.name }}</span>
 		</div>
 	  </div>
   
@@ -30,7 +30,7 @@
 		<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
 		  <div *ngFor="let company of series.production_companies" class="text-center bg-white p-2 rounded">
 			<img *ngIf="company.logo_path" [src]="'https://image.tmdb.org/t/p/w200' + company.logo_path" class="mx-auto h-12 object-contain">
-			<p class="text-sm text-gray-900 mt-2">{{ company.name }}</p>
+			<p class="text-mid text-gray-900 mt-2">{{ company.name }}</p>
 		  </div>
 		</div>
 	  </div>
@@ -39,9 +39,8 @@
 	  <div class="mt-6">
 		<h2 class="text-section font-bold mb-2">Produced in</h2>
 		<div class="flex gap-2">
-		  <span *ngFor="let country of series.production_countries" class="bg-blue-600 px-2 py-1 rounded text-sm">{{ country.name }}</span>
+		  <span *ngFor="let country of series.production_countries" class="bg-blue-600 px-2 py-1 rounded text-mid">{{ country.name }}</span>
 		</div>
 	  </div>
 	</div>
   </div>
-  
