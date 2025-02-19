@@ -19,11 +19,11 @@
 		  <button class="left carousel-button" (click)="scrollCarousel('left')">⬅️</button>
 		  <div class="flex overflow-hidden space-x-[2vw] carousel-container">
 			<a *ngFor="let work of knownWorks.slice(currentIndexWork, currentIndexWork + 5)" class="card"
-			   [routerLink]="['/movies', work.id]">
-			  <img [src]="'https://image.tmdb.org/t/p/w500' + work.poster_path" alt="{{ work.title || work.name }}" class="card-img">
+			   [routerLink]="getItemRouteArray(work)">
+			  <img [src]="'https://image.tmdb.org/t/p/w500' + work.poster_path" alt="{{ work.title }}" class="card-img">
 			  <div class="card-content">
-				<h3 class="truncate text-title">{{ work.title || work.name }}</h3>
-				<p class="text-vote">Rating: {{ work.vote_average | number:'1.1-1' }}</p>
+				<h3 class="truncate text-title">{{ work.title }}</h3>
+				<p class="text-vote">{{ work.media_type | titlecase }}</p>
 			  </div>
 			</a>
 		  </div>

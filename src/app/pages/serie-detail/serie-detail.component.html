@@ -30,13 +30,14 @@
 		<div class="relative">
 		  <button class="left carousel-button" (click)="scrollCarousel('people', 'left')">⬅️</button>
 		  <div class="flex overflow-hidden space-x-[2vw] carousel-container">
-			<div *ngFor="let actor of credits.cast.slice(currentIndexPeople, currentIndexPeople + 5)" class="card">
+			<a *ngFor="let actor of credits.cast.slice(currentIndexPeople, currentIndexPeople + 5)" class="card"
+			[routerLink]="['/actors', actor.id]">
 			  <img *ngIf="actor.profile_path" [src]="'https://image.tmdb.org/t/p/w200' + actor.profile_path" alt="{{ actor.name }}" class="card-img rounded-full object-cover">
 			  <div class="card-content text-center">
 				<h3 class="truncate text-title">{{ actor.name }}</h3>
 				<p class="text-sm text-gray-400">{{ actor.character }}</p>
 			  </div>
-			</div>
+			</a>
 		  </div>
 		  <button class="right carousel-button" (click)="scrollCarousel('people', 'right')">➡️</button>
 		</div>

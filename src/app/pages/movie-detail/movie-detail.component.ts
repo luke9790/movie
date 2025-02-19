@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ThemoviedbService } from '../../services/themoviedb.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-movie-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './movie-detail.component.html',
   styleUrl: './movie-detail.component.scss'
 })
@@ -36,7 +36,6 @@ export class MovieDetailComponent implements OnInit {
   fetchMovieCredits(id: number): void {
     this.tmdbService.getMovieCredits(id).subscribe({
       next: (response) => {
-        console.log(response);
         this.credits = response;
       }
     });

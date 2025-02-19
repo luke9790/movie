@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ThemoviedbService } from '../../services/themoviedb.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-series-detail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './serie-detail.component.html',
   styleUrl: './serie-detail.component.scss'
 })
@@ -36,7 +36,6 @@ export class SeriesDetailComponent implements OnInit {
   fetchSeriesCredits(id: number): void {
     this.tmdbService.getTvShowCredits(id).subscribe({
       next: (response) => {
-        console.log(response);
         this.credits = response;
       }
     });

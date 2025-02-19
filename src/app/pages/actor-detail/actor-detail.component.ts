@@ -28,7 +28,6 @@ export class ActorDetailComponent implements OnInit {
   fetchActorDetails(id: number): void {
     this.tmdbService.getPersonDetails(id).subscribe({
       next: (response) => {
-        console.log(response);
         this.actor = response;
       },
       error: (err) => {
@@ -40,11 +39,16 @@ export class ActorDetailComponent implements OnInit {
   fetchActorWorks(id: number): void {
     this.tmdbService.getPersonDetailsWork(id).subscribe({
       next: (response) => {
-        console.log(response);
         this.knownWorks = response.cast
-          .filter((work: { vote_average: number; }) => work.vote_average >= 7) 
-          .sort((a: { popularity: number; } , b: { popularity: number; }) => b.popularity - a.popularity) 
-          .slice(0, 20);
+          .filter((work: { vote_average: number; }) => work.vote_average >= 7)
+          .sort((a: { popularity: number; }, b: { popularity: number; }) => b.popularity - a.popularity)
+          .slice(0, 20)
+          .map((work: any) => ({
+            id: work.id,
+            title: work.title || work.name,
+            media_type: work.media_type || (work.first_air_date ? 'tv' : 'movie'),
+            poster_path: work.poster_path
+          }));
       },
       error: (err) => {
         console.error('Error fetching actor works:', err);
@@ -60,6 +64,17 @@ export class ActorDetailComponent implements OnInit {
       } else {
         this.currentIndexWork = Math.min(this.knownWorks.length - step, this.currentIndexWork + step);
       }
+    }
+  }
+
+  getItemRouteArray(item: any): any[] {
+    switch (item.media_type) {
+      case 'movie':
+        return ['/movies', item.id];
+      case 'tv':
+        return ['/series', item.id];
+      default:
+        return ['/'];
     }
   }
 }
