@@ -51,14 +51,12 @@
 	cursor: pointer;
   }
   
-  /* 🔹 L'hover ora ingrandisce di meno */
   .card:hover {
-	transform: scale(1.1) translateY(-5px); /* 🔹 Scala meno per evitare il taglio */
+	transform: scale(1.1) translateY(-5px); 
 	box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
 	z-index: 5;
   }
   
-  /* 🔹 Miglior supporto mobile */
   @media (max-width: 768px) {
 	.card {
 	  width: 42vw;

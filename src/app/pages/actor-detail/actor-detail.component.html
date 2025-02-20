@@ -1,37 +1,25 @@
 <div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
 	<div *ngIf="actor">
 	  <div class="flex flex-col items-center">
-		<img [src]="'https://image.tmdb.org/t/p/w500' + actor.profile_path" class="w-40 h-40 sm:w-52 sm:h-52 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full object-cover">
+		<img [src]="'https://image.tmdb.org/t/p/w500' + actor.profile_path" 
+			class="w-40 h-40 sm:w-52 sm:h-52 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full object-cover">
 		<h1 class="text-main font-bold mt-4">{{ actor.name }}</h1>
 		<p class="text-title text-gray-400">Born: {{ actor.birthday }} | {{ actor.place_of_birth }}</p>
 		<p *ngIf="actor.deathday" class="text-title text-gray-400">Died: {{ actor.deathday }}</p>
-		<a *ngIf="actor.imdb_id" [href]="'https://www.imdb.com/name/' + actor.imdb_id" target="_blank" class="text-title text-blue-400 hover:underline">IMDB Profile</a>
+		<a *ngIf="actor.imdb_id" [href]="'https://www.imdb.com/name/' + actor.imdb_id" target="_blank" 
+			class="text-title text-blue-400 hover:underline">IMDB Profile</a>
 	  </div>
 	  
 	  <div class="my-12">
 		<h2 class="text-main font-bold mb-2">📜 Biography</h2>
 		<p class="text-bio">{{ actor.biography }}</p>
 	  </div>
-  
-	  <section class="mb-[5vh]">
-		<h2 class="text-main font-bold mb-[2vh] text-yellow-400">🎬 Filmography</h2>
-		<div class="relative">
-		  <button class="left carousel-button" (click)="scrollCarousel('left')">⬅️</button>
-		  <div class="flex overflow-hidden space-x-[2vw] carousel-container">
-			<a *ngFor="let work of getVisibleWorks()" 
-			   class="card cursor-pointer"
-			   [routerLink]="getItemRouteArray(work)">
-			  <img [src]="'https://image.tmdb.org/t/p/w500' + work.poster_path" alt="{{ work.title }}" class="card-img">
-			  <div class="card-content">
-				<h3 class="truncate text-title">{{ work.title }}</h3>
-				<p class="text-vote">{{ work.media_type | titlecase }}</p>
-			  </div>
-			</a>
-		  </div>		  
-		  <button class="right carousel-button" (click)="scrollCarousel('right')">➡️</button>
-		</div>
-	  </section>
+
+	  <app-carousel 
+		title="🎬 Filmography" 
+		[items]="knownWorks" 
+		itemType="movie">
+	  </app-carousel>
 
 	</div>
-  </div>
-  
+</div>

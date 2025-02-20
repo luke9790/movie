@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../environment/environment';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-// Interfacce per i dati principali
 export interface Movie {
+  cast: any;
   id: number;
   title: string;
   overview: string;
@@ -169,8 +169,6 @@ export class ThemoviedbService {
     });
   }
   
-
-  // Ottenere le serie TV migliori (Top Rated) (con pagina)
   getTopRatedTvShows(minResults: number = 20, maxPages: number = 5): Observable<TvShow[]> {
     let allResults: TvShow[] = [];
     let currentPage = 1;
@@ -206,7 +204,6 @@ export class ThemoviedbService {
   }
   
 
-  // Ottenere le serie TV in onda (On The Air) (con pagina)
   getOnTheAirTvShows(minResults: number = 20, maxPages: number = 5): Observable<TvShow[]> {
     let allResults: TvShow[] = [];
     let currentPage = 1;
@@ -220,7 +217,7 @@ export class ThemoviedbService {
             const filteredResults = response.results.filter(series => 
               !this.isExcludedTvShow(series) &&
               !this.isAwardShow(series) &&
-              this.isPreferredLanguage(series) // 🔥 Filtro per lingua
+              this.isPreferredLanguage(series)
             );
   
             allResults = [...allResults, ...filteredResults];
@@ -242,14 +239,11 @@ export class ThemoviedbService {
   }
   
 
-
-  // Ottenere le persone popolari (con pagina)
   getPopularPeople(page: number = 1): Observable<ApiResponse<Person>> {
     const params = this.getDefaultParams().set('page', page.toString());
     return this.http.get<ApiResponse<Person>>(`${this.apiUrl}/person/popular`, { params });
   }
 
-  // Ricerca multi-contenuto (film, serie, persone)
   searchMulti(query: string): Observable<any> {
     const params = this.getDefaultParams().set('query', query);
     return this.http.get<any>(`${this.apiUrl}/search/multi`, { params });

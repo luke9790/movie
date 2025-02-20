@@ -20,6 +20,7 @@ export class HeaderComponent {
   onSearch(): void {
     if (this.searchQuery.trim()) {
       this.router.navigate(['/search'], { queryParams: { query: this.searchQuery } });
+      this.searchQuery = ''; 
     }
   }
 

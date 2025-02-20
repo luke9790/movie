@@ -10,10 +10,12 @@
 		  <div class="card-content">
 			<h3 class="truncate text-title">{{ item.title || item.name }}</h3>
 			<p *ngIf="item.vote_average" class="text-vote">Rating: {{ item.vote_average | number:'1.1-1' }}</p>
+			<p *ngIf="hasCharacterInfo(item)" class="text-gray-400 italic text-mid">
+			  Role: {{ item.character }}
+			</p>
 		  </div>
 		</a>
 	  </div>
 	  <button class="carousel-button right" (click)="scrollCarousel('right')">❯</button>
 	</div>
-  </section>
-  
+</section>

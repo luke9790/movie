@@ -10,9 +10,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './carousel.component.scss'
 })
 export class CarouselComponent {
-  @Input() title: string = ''; // Titolo del carosello
-  @Input() items: any[] = []; // Dati (film, serie, attori)
-  @Input() itemType: 'movie' | 'tv' | 'people' = 'movie'; // Tipo di contenuto
+  @Input() title: string = '';
+  @Input() items: any[] = [];
+  @Input() itemType: 'movie' | 'tv' | 'people' = 'movie';
   currentIndex: number = 0;
 
   scrollCarousel(direction: 'left' | 'right'): void {
@@ -39,5 +39,9 @@ export class CarouselComponent {
       default:
         return ['/'];
     }
+  }
+
+  hasCharacterInfo(item: any): boolean {
+    return !!item.character && this.itemType === 'people';
   }
 }

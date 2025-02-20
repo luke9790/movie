@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ThemoviedbService } from '../../services/themoviedb.service';
 import { CommonModule } from '@angular/common';
+import { CarouselComponent } from '../../components/carousel/carousel.component';
 
 @Component({
   selector: 'app-actor-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CarouselComponent],
   templateUrl: './actor-detail.component.html',
   styleUrl: './actor-detail.component.scss'
 })
 export class ActorDetailComponent implements OnInit {
   actor: any;
   knownWorks: any[] = [];
-  currentIndexWork: number = 0;
 
   constructor(private route: ActivatedRoute, private tmdbService: ThemoviedbService) {}
 
@@ -52,34 +52,6 @@ export class ActorDetailComponent implements OnInit {
       }
     });
   }  
-
-  scrollCarousel(direction: 'left' | 'right'): void {
-    const step = 5;
-    const totalWorks = this.knownWorks.length;
-  
-    if (totalWorks > 0) {
-      if (direction === 'left') {
-        this.currentIndexWork = (this.currentIndexWork - step + totalWorks) % totalWorks;
-      } else {
-        this.currentIndexWork = (this.currentIndexWork + step) % totalWorks;
-      }
-    }
-  }
-  
-  getVisibleWorks(): any[] {
-    const step = 5;
-    const totalWorks = this.knownWorks.length;
-    if (totalWorks === 0) return [];
-  
-    const startIndex = this.currentIndexWork;
-    let visibleWorks = this.knownWorks.slice(startIndex, startIndex + step);
-  
-    if (visibleWorks.length < step) {
-      visibleWorks = [...visibleWorks, ...this.knownWorks.slice(0, step - visibleWorks.length)];
-    }
-    return visibleWorks;
-  }
-  
 
   getItemRouteArray(item: any): any[] {
     switch (item.media_type) {

@@ -1,7 +1,7 @@
 <div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
 	<div *ngIf="movie">
-	  <!-- Movie Background & Title -->
-	  <div class="relative w-full h-[65vh] overflow-hidden">
+
+		<div class="relative w-full h-[65vh] overflow-hidden">
 		<img [src]="'https://image.tmdb.org/t/p/original' + movie.backdrop_path" class="w-full h-full object-cover object-top opacity-50">
 		<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
 		  <h1 class="text-main font-bold text-white">{{ movie.title }}</h1>
@@ -9,41 +9,26 @@
 		</div>
 	  </div>
 	  
-	  <!-- Movie Details -->
 	  <div class="mt-6">
 		<p class="text-section text-gray-300">{{ movie.overview }}</p>
 		<p class="mt-2 text-mid text-gray-400">Duration: {{ movie.runtime }} min | Rating: {{ movie.vote_average }} ⭐</p>
 		<p class="mt-2 text-mid text-gray-400">Release Date: {{ movie.release_date }}</p>
 	  </div>
   
-	  <!-- Genres -->
-	  <div class="mt-6">
+	  <div class="my-6">
 		<h2 class="text-section font-bold mb-2">Genres</h2>
 		<div class="flex gap-2 ">
 		  <span *ngFor="let genre of movie.genres" class="bg-red-600 px-2 py-1 rounded text-mid">{{ genre.name }}</span>
 		</div>
 	  </div>
 
-	  <section class="mt-6">
-		<h2 class="text-section font-bold mb-[2vh] text-blue-400">🎭 Cast</h2>
-		<div class="relative">
-			<button class="carousel-button left" (click)="scrollCarousel('left')">⬅️</button>
-			<div class="flex overflow-hidden space-x-[2vw] carousel-container">
-				<a *ngFor="let actor of credits.cast.slice(currentIndexPeople, currentIndexPeople + 5)" 
-					[routerLink]="['/actors', actor.id]" 
-					class="card cursor-pointer">
-				<img [src]="getImageUrl(actor.profile_path)" alt="{{ actor.name }}" class="card-img">
-				<div class="card-content">
-					<h3 class="truncate text-title">{{ actor.name }}</h3>
-					<p class="text-title text-gray-400">{{ actor.character }}</p>
-				</div>
-				</a>
-			</div>
-			<button class="carousel-button right" (click)="scrollCarousel('right')">➡️</button>
-			</div>
-	  </section>
+	  <app-carousel 
+		*ngIf="credits?.cast?.length > 0"
+		title="🎭 Cast" 
+		[items]="credits.cast" 
+		itemType="people">
+	  </app-carousel>
   
-	  <!-- Production Details -->
 	  <div class="mt-6">
 		<h2 class="text-section font-bold mb-2">Production</h2>
 		<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
@@ -54,7 +39,6 @@
 		</div>
 	  </div>
   
-	  <!-- Production Countries -->
 	  <div class="mt-6">
 		<h2 class="text-section font-bold mb-2">Produced in</h2>
 		<div class="flex gap-2">
@@ -62,12 +46,10 @@
 		</div>
 	  </div>
   
-	  <!-- Budget & Revenue -->
 	  <div class="mt-6">
 		<h2 class="text-section font-bold mb-2">Budget & Revenue</h2>
 		<p class="text-mid text-gray-400">Budget: ${{ movie.budget | number:'1.0-0' }}M</p>
 		<p class="text-mid text-gray-400">Revenue: ${{ movie.revenue | number:'1.0-0' }}M</p>
 	  </div>
 	</div>
-  </div>
-  
+</div>

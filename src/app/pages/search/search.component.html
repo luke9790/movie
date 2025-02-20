@@ -1,31 +1,31 @@
 <div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
-	<h1 class="text-[3vh] font-bold mb-[2vh]">
-	  Risultati per "{{ query }}"
+	<h1 class="text-[3vh] font-bold mb-[2vh] text-center">
+	  🔎 Search Results for "{{ query }}"
 	</h1>
   
-	<div *ngIf="loading" class="text-center text-[2vh]">Caricamento...</div>
+	<div *ngIf="loading" class="text-center text-[2vh]">Loading...</div>
 	<div *ngIf="error" class="text-center text-red-500">{{ error }}</div>
   
 	<div *ngIf="results.length > 0" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-[2vw]">
 	  <a *ngFor="let item of results" 
 		 [routerLink]="getItemRouteArray(item)"
-		 class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 cursor-pointer">
+		 class="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 cursor-pointer relative">
 		<img [src]="getImageUrl(item.poster_path || item.profile_path)" 
 			 alt="{{ item.name || item.title }}" 
 			 class="w-full h-[30vh] object-cover">
-		<div class="p-[2vh]">
-		  <h3 class="text-[2vh] font-semibold truncate">
+		<div class="p-[2vh] text-center">
+		  <h3 class="text-mid font-semibold truncate">
 			{{ item.title || item.name }}
 		  </h3>
-		  <p class="text-[1.5vh] text-gray-400">
+		  <p class="text-vote text-gray-400 uppercase">
 			{{ item.media_type | titlecase }}
 		  </p>
 		</div>
+		<div class="absolute inset-0 bg-black opacity-0 hover:opacity-40 transition-opacity"></div>
 	  </a>
 	</div>
   
-	<div *ngIf="!loading && !error && results.length === 0" class="text-center text-[2vh]">
-	  Nessun risultato trovato per "{{ query }}".
+	<div *ngIf="!loading && !error && results.length === 0" class="text-center text-[2vh] text-gray-400">
+	  ❌ No results found for "{{ query }}".
 	</div>
-  </div>
-  
+</div>
