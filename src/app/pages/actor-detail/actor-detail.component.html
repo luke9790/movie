@@ -18,7 +18,8 @@
 		<div class="relative">
 		  <button class="left carousel-button" (click)="scrollCarousel('left')">⬅️</button>
 		  <div class="flex overflow-hidden space-x-[2vw] carousel-container">
-			<a *ngFor="let work of knownWorks.slice(currentIndexWork, currentIndexWork + 5)" class="card"
+			<a *ngFor="let work of getVisibleWorks()" 
+			   class="card cursor-pointer"
 			   [routerLink]="getItemRouteArray(work)">
 			  <img [src]="'https://image.tmdb.org/t/p/w500' + work.poster_path" alt="{{ work.title }}" class="card-img">
 			  <div class="card-content">
@@ -26,7 +27,7 @@
 				<p class="text-vote">{{ work.media_type | titlecase }}</p>
 			  </div>
 			</a>
-		  </div>
+		  </div>		  
 		  <button class="right carousel-button" (click)="scrollCarousel('right')">➡️</button>
 		</div>
 	  </section>

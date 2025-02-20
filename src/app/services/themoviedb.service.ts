@@ -45,19 +45,29 @@ export interface ApiResponse<T> {
 })
 export class ThemoviedbService {
 
-  private apiUrl = environment.apiUrl;   // es. https://api.themoviedb.org/3
-  private apiKey = environment.apiKey;   // es. la tua chiave API
+  private apiUrl = environment.apiUrl;
+  private apiKey = environment.apiKey;
 
   constructor(private http: HttpClient) {}
 
-  // Funzione per ottenere i parametri comuni
   private getDefaultParams(): HttpParams {
     return new HttpParams()
       .set('api_key', this.apiKey)
       .set('language', 'en-US')
   }
 
-  // Ottenere i dettagli di un film
+  private isExcludedTvShow(series: TvShow): boolean {
+    const excludedGenres = [10763, 10764, 10767, 10768, 99]; // News, Reality, Talk, Politics, Documentari
+    return series.genre_ids?.some((id) => excludedGenres.includes(id));
+  }
+  private isAwardShow(series: any): boolean {
+    const awardKeywords = ["oscar", "mtv", "emmy", "golden globe", "bafta", "awards", "ceremony"];
+    return awardKeywords.some(keyword => 
+      series.title?.toLowerCase().includes(keyword) || 
+      series.name?.toLowerCase().includes(keyword)
+    );
+  }
+
   getMovieDetails(movieId: number): Observable<Movie> {
     const params = this.getDefaultParams();
     return this.http.get<Movie>(`${this.apiUrl}/movie/${movieId}`, { params });
@@ -68,7 +78,6 @@ export class ThemoviedbService {
     return this.http.get<Movie>(`${this.apiUrl}/movie/${movieId}/credits`, { params });
   }
 
-  // Ottenere i dettagli di una serie TV
   getTvShowDetails(tvId: number): Observable<TvShow> {
     const params = this.getDefaultParams();
     return this.http.get<TvShow>(`${this.apiUrl}/tv/${tvId}`, { params });
@@ -79,79 +88,105 @@ export class ThemoviedbService {
     return this.http.get<TvShow>(`${this.apiUrl}/tv/${tvId}/credits`, { params });
   }
 
-  // Ottenere i dettagli di un attore
   getPersonDetails(personId: number): Observable<Person> {
     const params = this.getDefaultParams();
     return this.http.get<Person>(`${this.apiUrl}/person/${personId}`, { params });
   }
 
-  getPersonDetailsWork(personId: number): Observable<any> {
+  getPersonDetailsWork(personId: number): Observable<any[]> {
     const params = this.getDefaultParams();
-    return this.http.get<any>(`${this.apiUrl}/person/${personId}/combined_credits`, { params });
+    return this.http.get<any>(`${this.apiUrl}/person/${personId}/combined_credits`, { params }).pipe(
+      map(response => response.cast
+        .filter((work: any) => 
+          !this.isExcludedTvShow(work) && 
+          !this.isAwardShow(work) && 
+          work.vote_average >= 7
+        )
+        .sort((a: any, b: any) => b.popularity - a.popularity)
+        .slice(0, 20)
+      )
+    );
   }
 
-  // Ottenere i film popolari (con pagina)
   getPopularMovies(page: number = 1): Observable<ApiResponse<Movie>> {
     const params = this.getDefaultParams().set('page', page.toString());
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/popular`, { params });
   }
 
-  // Ottenere i film in arrivo (con pagina)
   getUpcomingMovies(page: number = 1): Observable<ApiResponse<Movie>> {
     const params = this.getDefaultParams().set('page', page.toString());
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/upcoming`, { params });
   }
 
-  // Ottenere i film migliori (Top Rated) (con pagina)
   getTopRatedMovies(page: number = 1): Observable<ApiResponse<Movie>> {
     const params = this.getDefaultParams().set('page', page.toString());
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/top_rated`, { params });
   }
 
-  // Ottenere i film attualmente in sala (Now Playing) (con pagina)
   getNowPlayingMovies(page: number = 1): Observable<ApiResponse<Movie>> {
     const params = this.getDefaultParams().set('page', page.toString());
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/now_playing`, { params });
   }
 
+  getPopularTvShows(minResults: number = 20, maxPages: number = 5): Observable<TvShow[]> {
+    let allResults: TvShow[] = [];
+    let currentPage = 1;
 
-  // Ottenere le serie TV popolari (con pagina)
-  getPopularTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
-    const params = this.getDefaultParams().set('page', page.toString());
-    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/popular`, { params });
+    return new Observable<TvShow[]>(observer => {
+      const fetchPage = () => {
+        const params = this.getDefaultParams().set('page', currentPage.toString());
+
+        this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/popular`, { params }).subscribe({
+          next: response => {
+            const filteredResults = response.results.filter(series => 
+              !this.isExcludedTvShow(series) && !this.isAwardShow(series)
+            );
+
+            allResults = [...allResults, ...filteredResults];
+
+            if (allResults.length >= minResults || currentPage >= maxPages) {
+              observer.next(allResults.slice(0, minResults)); 
+              observer.complete();
+            } else {
+              currentPage++;
+              fetchPage(); 
+            }
+          },
+          error: err => observer.error(err)
+        });
+      };
+
+      fetchPage();
+    });
   }
 
   // Ottenere le serie TV migliori (Top Rated) (con pagina)
   getTopRatedTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
     const params = this.getDefaultParams().set('page', page.toString());
-    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/top_rated`, { params });
+    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/top_rated`, { params }).pipe(
+      map(response => ({
+        ...response,
+        results: response.results.filter(series => !this.isExcludedTvShow(series) && !this.isAwardShow(series))
+      }))
+    );
   }
 
   // Ottenere le serie TV in onda (On The Air) (con pagina)
   getOnTheAirTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
     const params = this.getDefaultParams().set('page', page.toString());
-    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/on_the_air`, { params });
+    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/on_the_air`, { params }).pipe(
+      map(response => ({
+        ...response,
+        results: response.results.filter(series => !this.isExcludedTvShow(series) && !this.isAwardShow(series))
+      }))
+    );
   }
 
-  // Ottenere le serie TV in onda oggi (Airing Today) (con pagina)
-  getAiringTodayTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
-    const params = this.getDefaultParams().set('page', page.toString());
-    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/airing_today`, { params });
-  }
 
   // Ottenere le persone popolari (con pagina)
   getPopularPeople(page: number = 1): Observable<ApiResponse<Person>> {
     const params = this.getDefaultParams().set('page', page.toString());
     return this.http.get<ApiResponse<Person>>(`${this.apiUrl}/person/popular`, { params });
-  }
-
-  // Ottenere tutti i dati popolari insieme
-  getAllPopular(): Observable<{ movies: ApiResponse<Movie>, tvShows: ApiResponse<TvShow>, people: ApiResponse<Person> }> {
-    return forkJoin({
-      movies: this.getPopularMovies(),
-      tvShows: this.getPopularTvShows(),
-      people: this.getPopularPeople()
-    });
   }
 
   // Ricerca multi-contenuto (film, serie, persone)

@@ -38,27 +38,8 @@ export class ActorDetailComponent implements OnInit {
 
   fetchActorWorks(id: number): void {
     this.tmdbService.getPersonDetailsWork(id).subscribe({
-      next: (response) => {
-        let filteredWorks = response.cast
-          .filter((work: any) => 
-            !this.isExcludedTvShow(work) && 
-            !this.isAwardShow(work) &&
-            work.vote_average >= 7
-          )
-          .sort((a: any, b: any) => b.popularity - a.popularity);
-  
-        if (filteredWorks.length < 20) {
-          const additionalWorks = response.cast
-            .filter((work: any) => 
-              !this.isExcludedTvShow(work) && 
-              !this.isAwardShow(work) &&
-              work.vote_average < 7
-            )
-            .sort((a: any, b: any) => b.popularity - a.popularity);
-  
-          filteredWorks = [...filteredWorks, ...additionalWorks].slice(0, 20);
-        }
-  
+      next: (filteredWorks) => {
+        console.log(filteredWorks);
         this.knownWorks = filteredWorks.map((work: any) => ({
           id: work.id,
           title: work.title || work.name,
@@ -70,32 +51,35 @@ export class ActorDetailComponent implements OnInit {
         console.error('Error fetching actor works:', err);
       }
     });
-  }
-  
-  isExcludedTvShow(work: any): boolean {
-    const excludedGenres = [10763, 10764, 10767, 10768, 99]; // News, Reality, Talk, War/Politics, documentari
-    return work.media_type === 'tv' && work.genre_ids?.some((id: number) => excludedGenres.includes(id));
-  }
-  
-  isAwardShow(work: any): boolean {
-    const awardKeywords = ["oscar", "mtv", "emmy", "golden globe", "bafta", "awards", "ceremony"];
-    return work.media_type === 'tv' && awardKeywords.some(keyword => 
-      work.title?.toLowerCase().includes(keyword) || work.name?.toLowerCase().includes(keyword)
-    );
-  }
-  
-  
+  }  
 
   scrollCarousel(direction: 'left' | 'right'): void {
     const step = 5;
-    if (this.knownWorks.length) {
+    const totalWorks = this.knownWorks.length;
+  
+    if (totalWorks > 0) {
       if (direction === 'left') {
-        this.currentIndexWork = Math.max(0, this.currentIndexWork - step);
+        this.currentIndexWork = (this.currentIndexWork - step + totalWorks) % totalWorks;
       } else {
-        this.currentIndexWork = Math.min(this.knownWorks.length - step, this.currentIndexWork + step);
+        this.currentIndexWork = (this.currentIndexWork + step) % totalWorks;
       }
     }
   }
+  
+  getVisibleWorks(): any[] {
+    const step = 5;
+    const totalWorks = this.knownWorks.length;
+    if (totalWorks === 0) return [];
+  
+    const startIndex = this.currentIndexWork;
+    let visibleWorks = this.knownWorks.slice(startIndex, startIndex + step);
+  
+    if (visibleWorks.length < step) {
+      visibleWorks = [...visibleWorks, ...this.knownWorks.slice(0, step - visibleWorks.length)];
+    }
+    return visibleWorks;
+  }
+  
 
   getItemRouteArray(item: any): any[] {
     switch (item.media_type) {

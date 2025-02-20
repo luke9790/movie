@@ -35,12 +35,16 @@ export class HomeComponent implements OnInit {
   }
 
   fetchTvShows(): void {
-    this.tmdbService.getPopularTvShows(1).subscribe({
-      next: (response) => {
-        this.popularTvShows = response.results;
+    this.tmdbService.getPopularTvShows().subscribe({
+      next: (tvShows) => {
+        this.popularTvShows = tvShows;
+      },
+      error: (err) => {
+        console.error("Error fetching TV shows:", err);
       }
     });
   }
+  
 
   fetchPeople(): void {
     this.tmdbService.getPopularPeople(1).subscribe({

@@ -28,8 +28,11 @@ export class SeriesComponent implements OnInit {
 
   fetchPopularTvShows(): void {
     this.tmdbService.getPopularTvShows().subscribe({
-      next: (response) => {
-        this.popularTvShows = response.results;
+      next: (tvShows) => {
+        this.popularTvShows = tvShows;
+      },
+      error: (err) => {
+        console.error("Error fetching TV shows:", err);
       }
     });
   }
