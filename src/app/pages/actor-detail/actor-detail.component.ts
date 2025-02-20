@@ -39,7 +39,6 @@ export class ActorDetailComponent implements OnInit {
   fetchActorWorks(id: number): void {
     this.tmdbService.getPersonDetailsWork(id).subscribe({
       next: (filteredWorks) => {
-        console.log(filteredWorks);
         this.knownWorks = filteredWorks.map((work: any) => ({
           id: work.id,
           title: work.title || work.name,

@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 export class CarouselComponent {
   @Input() title: string = '';
   @Input() items: any[] = [];
-  @Input() itemType: 'movie' | 'tv' | 'people' = 'movie';
+  @Input() itemType: 'movie' | 'tv' | 'people' | 'mixed' = 'mixed';
   currentIndex: number = 0;
 
   scrollCarousel(direction: 'left' | 'right'): void {
@@ -29,7 +29,9 @@ export class CarouselComponent {
   }
 
   getItemRouteArray(item: any): any[] {
-    switch (this.itemType) {
+    const mediaType = this.itemType === 'mixed' ? item.media_type : this.itemType;
+  
+    switch (mediaType) {
       case 'movie':
         return ['/movies', item.id];
       case 'tv':
@@ -40,6 +42,8 @@ export class CarouselComponent {
         return ['/'];
     }
   }
+  
+  
 
   hasCharacterInfo(item: any): boolean {
     return !!item.character && this.itemType === 'people';
