@@ -1,0 +1,19 @@
+<section class="mb-[5vh]">
+	<h2 class="text-section font-bold mb-[2vh]">{{ title }}</h2>
+	<div class="relative">
+	  <button class="carousel-button left" (click)="scrollCarousel('left')">❮</button>
+	  <div class="flex overflow-hidden space-x-[2vw] carousel-container">
+		<a *ngFor="let item of items.slice(currentIndex, currentIndex + 5)" 
+		   [routerLink]="getItemRouteArray(item)" 
+		   class="card cursor-pointer">
+		  <img [src]="getImageUrl(item.poster_path || item.profile_path)" alt="{{ item.title || item.name }}" class="card-img">
+		  <div class="card-content">
+			<h3 class="truncate text-title">{{ item.title || item.name }}</h3>
+			<p *ngIf="item.vote_average" class="text-vote">Rating: {{ item.vote_average | number:'1.1-1' }}</p>
+		  </div>
+		</a>
+	  </div>
+	  <button class="carousel-button right" (click)="scrollCarousel('right')">❯</button>
+	</div>
+  </section>
+  

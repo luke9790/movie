@@ -1,0 +1,76 @@
+.carousel-container {
+	display: flex;
+	overflow: hidden;
+	scroll-behavior: smooth;
+	gap: 1vw;
+	position: relative;
+	padding: 0 4vw;
+  }
+  
+  .carousel-button {
+	background: rgba(255, 255, 255, 0.2);
+	color: white;
+	border: none;
+	padding: 1vh 1.5vw;
+	border-radius: 50%;
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 10;
+	transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+	font-size: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  }
+  
+
+  .carousel-button.left {
+	left: -2vw;
+  }
+  .carousel-button.right {
+	right: -2vw;
+  }
+  
+  .carousel-button:hover {
+	background: rgba(255, 255, 255, 0.6);
+  }
+  
+  .card {
+	width: 15vw;
+	background-color: #222;
+	border-radius: 10px;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+	position: relative;
+	margin: 2%;
+	cursor: pointer;
+  }
+  
+  /* 🔹 L'hover ora ingrandisce di meno */
+  .card:hover {
+	transform: scale(1.1) translateY(-5px); /* 🔹 Scala meno per evitare il taglio */
+	box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+	z-index: 5;
+  }
+  
+  /* 🔹 Miglior supporto mobile */
+  @media (max-width: 768px) {
+	.card {
+	  width: 42vw;
+	}
+	.carousel-container {
+	  flex-wrap: nowrap;
+	  overflow-x: auto;
+	  gap: 1vw;
+	}
+	.carousel-button {
+	  font-size: 1rem;
+	  padding: 1vh 1vw;
+	}
+  }
+  

@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ThemoviedbService } from '../../services/themoviedb.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CarouselComponent } from '../../components/carousel/carousel.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CarouselComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
