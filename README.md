@@ -15,6 +15,7 @@ Welcome to **MovieHub**, a web application that allows users to explore **movies
 ✅ **Detailed Pages**: Each movie, TV show, and actor has a dedicated detail page with **cast, ratings, and additional info**.  
 ✅ **Smart Filtering**: Only **high-quality** content is shown, **excluding reality TV, talk shows, and award ceremonies**.  
 ✅ **Seamless Navigation**: Custom-built **infinite-scrolling carousels** for smooth browsing.  
+✅ **Responsive Design**: Perfect for all devices.  
 
 ---
 
@@ -48,7 +49,7 @@ export const environment = {
 
 ### 4️⃣ Run Locally
 ```bash
-npm start
+ng serve
 ```
 Your app will be available at `http://localhost:4200/`.
 
@@ -57,12 +58,6 @@ Your app will be available at `http://localhost:4200/`.
 ## 🏗 Deployment
 
 This project is deployed using Vercel. The build process automatically injects environment variables.
-
-**Environment Variables on Vercel:**
-- `API_URL` → `https://api.themoviedb.org/3`
-- `API_KEY` → (your TMDb API key)
-
-To deploy manually, push changes to the main branch, and Vercel will handle the rest.
 
 ---
 
