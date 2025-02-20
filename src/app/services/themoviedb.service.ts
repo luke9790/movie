@@ -23,6 +23,7 @@ export interface TvShow {
   first_air_date: string;
   vote_average: number;
   vote_count: number;
+  genre_ids: number[];
 }
 
 export interface Person {
@@ -54,7 +55,6 @@ export class ThemoviedbService {
     return new HttpParams()
       .set('api_key', this.apiKey)
       .set('language', 'en-US')
-      .set('page', '1');
   }
 
   // Ottenere i dettagli di un film

@@ -39,22 +39,52 @@ export class ActorDetailComponent implements OnInit {
   fetchActorWorks(id: number): void {
     this.tmdbService.getPersonDetailsWork(id).subscribe({
       next: (response) => {
-        this.knownWorks = response.cast
-          .filter((work: { vote_average: number; }) => work.vote_average >= 7)
-          .sort((a: { popularity: number; }, b: { popularity: number; }) => b.popularity - a.popularity)
-          .slice(0, 20)
-          .map((work: any) => ({
-            id: work.id,
-            title: work.title || work.name,
-            media_type: work.media_type || (work.first_air_date ? 'tv' : 'movie'),
-            poster_path: work.poster_path
-          }));
+        let filteredWorks = response.cast
+          .filter((work: any) => 
+            !this.isExcludedTvShow(work) && 
+            !this.isAwardShow(work) &&
+            work.vote_average >= 7
+          )
+          .sort((a: any, b: any) => b.popularity - a.popularity);
+  
+        if (filteredWorks.length < 20) {
+          const additionalWorks = response.cast
+            .filter((work: any) => 
+              !this.isExcludedTvShow(work) && 
+              !this.isAwardShow(work) &&
+              work.vote_average < 7
+            )
+            .sort((a: any, b: any) => b.popularity - a.popularity);
+  
+          filteredWorks = [...filteredWorks, ...additionalWorks].slice(0, 20);
+        }
+  
+        this.knownWorks = filteredWorks.map((work: any) => ({
+          id: work.id,
+          title: work.title || work.name,
+          media_type: work.media_type || (work.first_air_date ? 'tv' : 'movie'),
+          poster_path: work.poster_path
+        }));
       },
       error: (err) => {
         console.error('Error fetching actor works:', err);
       }
     });
   }
+  
+  isExcludedTvShow(work: any): boolean {
+    const excludedGenres = [10763, 10764, 10767, 10768, 99]; // News, Reality, Talk, War/Politics, documentari
+    return work.media_type === 'tv' && work.genre_ids?.some((id: number) => excludedGenres.includes(id));
+  }
+  
+  isAwardShow(work: any): boolean {
+    const awardKeywords = ["oscar", "mtv", "emmy", "golden globe", "bafta", "awards", "ceremony"];
+    return work.media_type === 'tv' && awardKeywords.some(keyword => 
+      work.title?.toLowerCase().includes(keyword) || work.name?.toLowerCase().includes(keyword)
+    );
+  }
+  
+  
 
   scrollCarousel(direction: 'left' | 'right'): void {
     const step = 5;

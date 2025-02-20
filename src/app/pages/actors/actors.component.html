@@ -1,14 +1,14 @@
 <div class="min-h-screen px-[4vw] py-[5vh] bg-gray-900 text-white">
 	<h1 class="text-main font-bold mb-[3vh] text-yellow-500 text-center">
-	  🎭 Scopri gli Attori di Tendenza
+	  🎭 Discover Trending Actors
 	</h1>
   
 	<section class="mb-[5vh]">
-	  <h2 class="text-section font-bold mb-[2vh] text-yellow-400">🌟 Attori Popolari</h2>
+	  <h2 class="text-section font-bold mb-[2vh] text-yellow-400">🌟 The Most Talked-About Actors</h2>
 	  <div class="relative">
-		<button class="carousel-button left" (click)="scrollCarousel('left')">⬅️</button>
+		<button class="carousel-button left" (click)="scrollCarousel('left', 'first')">⬅️</button>
 		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
-		  <a *ngFor="let actor of popularActors.slice(currentIndexPopular, currentIndexPopular + 5)" 
+		  <a *ngFor="let actor of popularActorsPage1.slice(currentIndexPopular1, currentIndexPopular1 + 5)" 
 			 [routerLink]="['/actors', actor.id]" 
 			 class="card cursor-pointer">
 			<img [src]="getImageUrl(actor.profile_path)" alt="{{ actor.name }}" class="card-img">
@@ -17,8 +17,25 @@
 			</div>
 		  </a>
 		</div>
-		<button class="carousel-button right" (click)="scrollCarousel('right')">➡️</button>
+		<button class="carousel-button right" (click)="scrollCarousel('right', 'first')">➡️</button>
 	  </div>
 	</section>
-  </div>
-  
+
+	<section class="mb-[5vh]">
+	  <h2 class="text-section font-bold mb-[2vh] text-yellow-400">🚀 Trending Celebrities You Can’t Miss</h2>
+	  <div class="relative">
+		<button class="carousel-button left" (click)="scrollCarousel('left', 'second')">⬅️</button>
+		<div class="flex overflow-hidden space-x-[2vw] carousel-container">
+		  <a *ngFor="let actor of popularActorsPage2.slice(currentIndexPopular2, currentIndexPopular2 + 5)" 
+			 [routerLink]="['/actors', actor.id]" 
+			 class="card cursor-pointer">
+			<img [src]="getImageUrl(actor.profile_path)" alt="{{ actor.name }}" class="card-img">
+			<div class="card-content">
+			  <h3 class="truncate text-title">{{ actor.name }}</h3>
+			</div>
+		  </a>
+		</div>
+		<button class="carousel-button right" (click)="scrollCarousel('right', 'second')">➡️</button>
+	  </div>
+	</section>
+</div>

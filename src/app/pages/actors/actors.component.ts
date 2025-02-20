@@ -11,8 +11,11 @@ import { RouterModule } from '@angular/router';
   styleUrl: './actors.component.scss'
 })
 export class ActorsComponent implements OnInit {
-  popularActors: any[] = [];
-  currentIndexPopular = 0;
+  popularActorsPage1: any[] = [];
+  popularActorsPage2: any[] = [];
+  currentIndexPopular1 = 0;
+  currentIndexPopular2 = 0;
+  totalActors = 20;
 
   constructor(private tmdbService: ThemoviedbService) {}
 
@@ -21,18 +24,30 @@ export class ActorsComponent implements OnInit {
   }
 
   fetchPopularActors(): void {
-    this.tmdbService.getPopularPeople().subscribe({
+    this.tmdbService.getPopularPeople(1).subscribe({
       next: (response) => {
-        this.popularActors = response.results;
+        this.popularActorsPage1 = response.results;
+      }
+    });
+
+    this.tmdbService.getPopularPeople(2).subscribe({
+      next: (response) => {
+        this.popularActorsPage2 = response.results;
       }
     });
   }
 
-  scrollCarousel(direction: 'left' | 'right'): void {
+  scrollCarousel(direction: 'left' | 'right', carousel: 'first' | 'second'): void {
     const step = 5;
-    this.currentIndexPopular = direction === 'left' 
-      ? Math.max(0, this.currentIndexPopular - step) 
-      : Math.min(this.popularActors.length - step, this.currentIndexPopular + step);
+    if (carousel === 'first') {
+      this.currentIndexPopular1 = direction === 'left'
+        ? (this.currentIndexPopular1 - step + this.totalActors) % this.totalActors
+        : (this.currentIndexPopular1 + step) % this.totalActors;
+    } else {
+      this.currentIndexPopular2 = direction === 'left'
+        ? (this.currentIndexPopular2 - step + this.totalActors) % this.totalActors
+        : (this.currentIndexPopular2 + step) % this.totalActors;
+    }
   }
 
   getImageUrl(path: string | null): string {

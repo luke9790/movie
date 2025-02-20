@@ -41,13 +41,15 @@ export class MovieDetailComponent implements OnInit {
     });
   }
 
-  scrollCarousel(type: 'people', direction: 'left' | 'right'): void {
-    if (type === 'people') {
+  scrollCarousel(direction: 'left' | 'right'): void {
       if (direction === 'left') {
         this.currentIndexPeople = (this.currentIndexPeople - 5 < 0) ? Math.max(0, this.credits?.cast.length - 5) : this.currentIndexPeople - 5;
       } else {
         this.currentIndexPeople = (this.currentIndexPeople + 5 >= (this.credits?.cast.length || 0)) ? 0 : this.currentIndexPeople + 5;
       }
-    }
+  }
+
+  getImageUrl(path: string | null): string {
+    return path ? `https://image.tmdb.org/t/p/w500${path}` : 'assets/images/placeholder.png';
   }
 }
