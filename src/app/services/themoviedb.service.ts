@@ -16,6 +16,7 @@ export interface Movie {
 }
 
 export interface TvShow {
+  original_language: string;
   id: number;
   name: string;
   overview: string;
@@ -47,6 +48,7 @@ export class ThemoviedbService {
 
   private apiUrl = environment.apiUrl;
   private apiKey = environment.apiKey;
+  private preferredLanguages = ['en','it'];
 
   constructor(private http: HttpClient) {}
 
@@ -60,12 +62,17 @@ export class ThemoviedbService {
     const excludedGenres = [10763, 10764, 10767, 10768, 99]; // News, Reality, Talk, Politics, Documentari
     return series.genre_ids?.some((id) => excludedGenres.includes(id));
   }
+
   private isAwardShow(series: any): boolean {
     const awardKeywords = ["oscar", "mtv", "emmy", "golden globe", "bafta", "awards", "ceremony"];
     return awardKeywords.some(keyword => 
       series.title?.toLowerCase().includes(keyword) || 
       series.name?.toLowerCase().includes(keyword)
     );
+  }
+
+  private isPreferredLanguage(series: TvShow): boolean {
+    return this.preferredLanguages.includes(series.original_language);
   }
 
   getMovieDetails(movieId: number): Observable<Movie> {
@@ -128,22 +135,24 @@ export class ThemoviedbService {
     return this.http.get<ApiResponse<Movie>>(`${this.apiUrl}/movie/now_playing`, { params });
   }
 
-  getPopularTvShows(minResults: number = 20, maxPages: number = 5): Observable<TvShow[]> {
+  getPopularTvShows(minResults: number = 20, maxPages: number = 10): Observable<TvShow[]> {
     let allResults: TvShow[] = [];
     let currentPage = 1;
-
+  
     return new Observable<TvShow[]>(observer => {
       const fetchPage = () => {
         const params = this.getDefaultParams().set('page', currentPage.toString());
-
+  
         this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/popular`, { params }).subscribe({
           next: response => {
             const filteredResults = response.results.filter(series => 
-              !this.isExcludedTvShow(series) && !this.isAwardShow(series)
+              !this.isExcludedTvShow(series) &&
+              !this.isAwardShow(series) && 
+              this.isPreferredLanguage(series) 
             );
-
+  
             allResults = [...allResults, ...filteredResults];
-
+  
             if (allResults.length >= minResults || currentPage >= maxPages) {
               observer.next(allResults.slice(0, minResults)); 
               observer.complete();
@@ -155,32 +164,83 @@ export class ThemoviedbService {
           error: err => observer.error(err)
         });
       };
-
+  
       fetchPage();
     });
   }
+  
 
   // Ottenere le serie TV migliori (Top Rated) (con pagina)
-  getTopRatedTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
-    const params = this.getDefaultParams().set('page', page.toString());
-    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/top_rated`, { params }).pipe(
-      map(response => ({
-        ...response,
-        results: response.results.filter(series => !this.isExcludedTvShow(series) && !this.isAwardShow(series))
-      }))
-    );
+  getTopRatedTvShows(minResults: number = 20, maxPages: number = 5): Observable<TvShow[]> {
+    let allResults: TvShow[] = [];
+    let currentPage = 1;
+  
+    return new Observable<TvShow[]>(observer => {
+      const fetchPage = () => {
+        const params = this.getDefaultParams().set('page', currentPage.toString());
+  
+        this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/top_rated`, { params }).subscribe({
+          next: response => {
+            const filteredResults = response.results.filter(series => 
+              !this.isExcludedTvShow(series) &&
+              !this.isAwardShow(series) &&
+              this.isPreferredLanguage(series)
+            );
+  
+            allResults = [...allResults, ...filteredResults];
+  
+            if (allResults.length >= minResults || currentPage >= maxPages) {
+              observer.next(allResults.slice(0, minResults)); 
+              observer.complete();
+            } else {
+              currentPage++;
+              fetchPage(); 
+            }
+          },
+          error: err => observer.error(err)
+        });
+      };
+  
+      fetchPage();
+    });
   }
+  
 
   // Ottenere le serie TV in onda (On The Air) (con pagina)
-  getOnTheAirTvShows(page: number = 1): Observable<ApiResponse<TvShow>> {
-    const params = this.getDefaultParams().set('page', page.toString());
-    return this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/on_the_air`, { params }).pipe(
-      map(response => ({
-        ...response,
-        results: response.results.filter(series => !this.isExcludedTvShow(series) && !this.isAwardShow(series))
-      }))
-    );
+  getOnTheAirTvShows(minResults: number = 20, maxPages: number = 5): Observable<TvShow[]> {
+    let allResults: TvShow[] = [];
+    let currentPage = 1;
+  
+    return new Observable<TvShow[]>(observer => {
+      const fetchPage = () => {
+        const params = this.getDefaultParams().set('page', currentPage.toString());
+  
+        this.http.get<ApiResponse<TvShow>>(`${this.apiUrl}/tv/on_the_air`, { params }).subscribe({
+          next: response => {
+            const filteredResults = response.results.filter(series => 
+              !this.isExcludedTvShow(series) &&
+              !this.isAwardShow(series) &&
+              this.isPreferredLanguage(series) // 🔥 Filtro per lingua
+            );
+  
+            allResults = [...allResults, ...filteredResults];
+  
+            if (allResults.length >= minResults || currentPage >= maxPages) {
+              observer.next(allResults.slice(0, minResults)); 
+              observer.complete();
+            } else {
+              currentPage++;
+              fetchPage(); 
+            }
+          },
+          error: err => observer.error(err)
+        });
+      };
+  
+      fetchPage();
+    });
   }
+  
 
 
   // Ottenere le persone popolari (con pagina)

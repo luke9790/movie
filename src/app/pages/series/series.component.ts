@@ -17,6 +17,7 @@ export class SeriesComponent implements OnInit {
 
   currentIndexPopular = 0;
   currentIndexTopRated = 0;
+  currentIndexOnTheAir = 0;
 
   constructor(private tmdbService: ThemoviedbService) {}
 
@@ -29,6 +30,7 @@ export class SeriesComponent implements OnInit {
   fetchPopularTvShows(): void {
     this.tmdbService.getPopularTvShows().subscribe({
       next: (tvShows) => {
+        console.log(tvShows)
         this.popularTvShows = tvShows;
       },
       error: (err) => {
@@ -39,31 +41,91 @@ export class SeriesComponent implements OnInit {
 
   fetchTopRatedTvShows(): void {
     this.tmdbService.getTopRatedTvShows().subscribe({
-      next: (response) => {
-        this.topRatedTvShows = response.results;
+      next: (topRated) => {
+        console.log("Risposta TOP RATED: ",topRated)
+        this.topRatedTvShows = topRated;
       }
     });
   }
 
   fetchOnTheAirTvShows(): void {
     this.tmdbService.getOnTheAirTvShows().subscribe({
-      next: (response) => {
-        this.onTheAirTvShows = response.results;
+      next: (onTheAirTvShows) => {
+        console.log("Risposta on the air: ",onTheAirTvShows)
+        this.onTheAirTvShows = onTheAirTvShows;
       }
     });
   }
 
-  scrollCarousel(type: 'popular' | 'topRated', direction: 'left' | 'right'): void {
+  scrollCarousel(type: 'popular' | 'topRated' | 'onTheAir', direction: 'left' | 'right'): void {
     const step = 5;
-    if (type === 'popular') {
-      this.currentIndexPopular = direction === 'left' 
-        ? Math.max(0, this.currentIndexPopular - step) 
-        : Math.min(this.popularTvShows.length - step, this.currentIndexPopular + step);
-    } else if (type === 'topRated') {
-      this.currentIndexTopRated = direction === 'left' 
-        ? Math.max(0, this.currentIndexTopRated - step) 
-        : Math.min(this.topRatedTvShows.length - step, this.currentIndexTopRated + step);
+    let currentIndex, totalItems;
+
+    switch (type) {
+      case 'popular':
+        currentIndex = this.currentIndexPopular;
+        totalItems = this.popularTvShows.length;
+        break;
+      case 'topRated':
+        currentIndex = this.currentIndexTopRated;
+        totalItems = this.topRatedTvShows.length;
+        break;
+      case 'onTheAir':
+        currentIndex = this.currentIndexOnTheAir;
+        totalItems = this.onTheAirTvShows.length;
+        break;
     }
+
+    if (totalItems > 0) {
+      if (direction === 'left') {
+        currentIndex = (currentIndex - step + totalItems) % totalItems;
+      } else {
+        currentIndex = (currentIndex + step) % totalItems;
+      }
+    }
+
+    switch (type) {
+      case 'popular':
+        this.currentIndexPopular = currentIndex;
+        break;
+      case 'topRated':
+        this.currentIndexTopRated = currentIndex;
+        break;
+      case 'onTheAir':
+        this.currentIndexOnTheAir = currentIndex;
+        break;
+    }
+  }
+
+  getVisibleShows(type: 'popular' | 'topRated' | 'onTheAir'): any[] {
+    const step = 5;
+    let shows = [];
+    let currentIndex;
+
+    switch (type) {
+      case 'popular':
+        shows = this.popularTvShows;
+        currentIndex = this.currentIndexPopular;
+        break;
+      case 'topRated':
+        shows = this.topRatedTvShows;
+        currentIndex = this.currentIndexTopRated;
+        break;
+      case 'onTheAir':
+        shows = this.onTheAirTvShows;
+        currentIndex = this.currentIndexOnTheAir;
+        break;
+    }
+
+    if (shows.length === 0) return [];
+
+    let visibleShows = shows.slice(currentIndex, currentIndex + step);
+
+    if (visibleShows.length < step) {
+      visibleShows = [...visibleShows, ...shows.slice(0, step - visibleShows.length)];
+    }
+
+    return visibleShows;
   }
 
   getImageUrl(path: string | null): string {
