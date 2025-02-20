@@ -1,5 +1,15 @@
 const fs = require('fs');
+const path = require('path');
 
+const envDir = path.join(__dirname, 'src/environment');
+const envFile = path.join(envDir, 'environment.ts');
+
+// Controlla se la cartella `src/environment/` esiste, altrimenti la crea
+if (!fs.existsSync(envDir)) {
+  fs.mkdirSync(envDir, { recursive: true });
+}
+
+// Contenuto del file `environment.ts`
 const envFileContent = `
 export const environment = {
   production: ${process.env.PRODUCTION || false},
@@ -8,5 +18,6 @@ export const environment = {
 };
 `;
 
-fs.writeFileSync('src/environment/environment.ts', envFileContent);
+// Scrive il file `environment.ts`
+fs.writeFileSync(envFile, envFileContent);
 console.log('✅ environment.ts generato con successo!');
