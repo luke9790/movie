@@ -1,59 +1,96 @@
-# MovieSite
+# 🎬 MovieHub - The Ultimate Movie & TV Show Explorer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.0.
+Welcome to **MovieHub**, a web application that allows users to explore **movies, TV shows, and actors** using **The Movie Database (TMDb) API**. The platform provides **high-quality content discovery** with smart filtering and an intuitive UI.
 
-## Development server
+🔗 **Live Demo**: [MovieHub](https://movie-gamma-ten.vercel.app/)
 
-To start a local development server, run:
+---
 
+## 📌 Features
+
+✅ **Home Page**: Displays trending **movies, TV shows, and actors** with interactive carousels.  
+✅ **Movies Section**: Browse **popular, top-rated, upcoming, and now-playing movies**.  
+✅ **TV Shows Section**: Discover **popular, top-rated, and currently airing TV shows**.  
+✅ **Actors Section**: View **trending actors** and explore their filmography.  
+✅ **Detailed Pages**: Each movie, TV show, and actor has a dedicated detail page with **cast, ratings, and additional info**.  
+✅ **Smart Filtering**: Only **high-quality** content is shown, **excluding reality TV, talk shows, and award ceremonies**.  
+✅ **Seamless Navigation**: Custom-built **infinite-scrolling carousels** for smooth browsing.  
+
+---
+
+## 🚀 Getting Started
+
+### 1️⃣ Clone the Repository
 ```bash
-ng serve
+git clone https://github.com/yourusername/moviehub.git
+cd moviehub
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+### 2️⃣ Install Dependencies
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 3️⃣ Setup API Keys
+To run the project locally, create a file at `src/app/environment/environment.ts` with the following content:
 
-```bash
-ng generate --help
+```ts
+export const environment = {
+  production: false,
+  apiUrl: 'https://api.themoviedb.org/3',
+  apiKey: 'YOUR_TMDB_API_KEY_HERE'
+};
 ```
 
-## Building
+🔑 Replace `YOUR_TMDB_API_KEY_HERE` with your TMDb API Key.
 
-To build the project run:
+🛑 DO NOT commit this file to GitHub! It's already ignored via `.gitignore`.
 
+### 4️⃣ Run Locally
 ```bash
-ng build
+npm start
 ```
+Your app will be available at `http://localhost:4200/`.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 🏗 Deployment
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+This project is deployed using Vercel. The build process automatically injects environment variables.
 
-```bash
-ng test
-```
+**Environment Variables on Vercel:**
+- `API_URL` → `https://api.themoviedb.org/3`
+- `API_KEY` → (your TMDb API key)
 
-## Running end-to-end tests
+To deploy manually, push changes to the main branch, and Vercel will handle the rest.
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+## 🎨 UI & Carousel System
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+The app features a Netflix-style UI, with a clean dark theme and smooth animations.
 
-## Additional Resources
+### 🔄 Carousel Behavior
+- **Looping Mechanism**: Ensures infinite scrolling, dynamically adjusting for different screen sizes.
+- **Hover Effects**: Enlarges items slightly without cutting the layout.
+- **Arrow Navigation**: Custom left & right buttons for manual scrolling.
+- **Optimized for All Screens**: Uses TailwindCSS for responsive design.
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+---
+
+## 🏆 Smart Filtering
+
+- Filters out reality TV, talk shows, and award shows.
+- Prioritizes English & Italian content for a better experience.
+- Ranks results by popularity and rating to highlight the best options.
+
+---
+
+## 🛠 Technologies Used
+
+- Angular (v19)
+- TypeScript
+- TMDb API
+- TailwindCSS
+- Vercel (Deployment)
+- RxJS (Reactive Programming)

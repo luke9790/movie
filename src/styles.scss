@@ -17,7 +17,6 @@ body {
 	display: none;
   }
   
-  /* Card Uniformi */
   .card {
 	width: 18vw;
 	height: auto;
@@ -106,7 +105,6 @@ body {
 	font-size: clamp(0.6rem, 1.25vw, 1.5rem);
   }
 
-   /* Miglioramenti per mobile */
    @media (max-width: 768px) {
 	.card {
 	  width: 40vw;
